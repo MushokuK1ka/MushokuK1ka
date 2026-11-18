@@ -1,69 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>五种博客主题预览</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="切换 tsumugi 博客的五种阅读主题。">
+  <title>主题预览 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Mushoku Blog Theme Gallery</h1>
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="posts.html">文章</a>
-            <a href="about.html">关于</a>
-        </nav>
-    </header>
+<body class="themes-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html">文章</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
 
-    <main>
-        <p class="preview-intro">
-            点击右上角主题按钮，可以实时体验五种完全不同的博客视觉风格。
-        </p>
+<main id="main" class="wrap inner-page">
+  <header class="page-heading"><h1>主题预览</h1><p>选择一个主题应用到全站。</p></header>
+  <div class="theme-preview-grid">
+    <button type="button" class="theme-preview-card" data-theme-choice="paper" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Paper White</strong><span>暖白纸张与清晰的阅读层次。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="cyber" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Cyber Neon</strong><span>深色背景与蓝绿色强调色。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="sakura" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Sakura Journal</strong><span>柔和浅粉与酒红色调。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="glass" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Glass UI</strong><span>浅蓝底色与半透明表面。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="terminal" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Retro Terminal</strong><span>深绿与等宽字体。</span></button>
+  </div>
+</main>
 
-        <div class="theme-preview-grid">
-            <section class="theme-preview-card">
-                <span class="theme-badge">01</span>
-                <h3>Paper White</h3>
-                <p>极简学术阅读风，适合技术文章和长篇笔记。</p>
-            </section>
-
-            <section class="theme-preview-card">
-                <span class="theme-badge">02</span>
-                <h3>Cyber Neon</h3>
-                <p>赛博朋克风格，适合程序开发与科技主题。</p>
-            </section>
-
-            <section class="theme-preview-card">
-                <span class="theme-badge">03</span>
-                <h3>Sakura Journal</h3>
-                <p>日式杂志风，适合生活记录和摄影文章。</p>
-            </section>
-
-            <section class="theme-preview-card">
-                <span class="theme-badge">04</span>
-                <h3>Glass UI</h3>
-                <p>毛玻璃现代 UI，强调轻盈和高级感。</p>
-            </section>
-
-            <section class="theme-preview-card">
-                <span class="theme-badge">05</span>
-                <h3>Retro Terminal</h3>
-                <p>复古终端风，适合极客和代码文化内容。</p>
-            </section>
-        </div>
-
-        <h2>示例文章标题</h2>
-        <p>
-            这是主题切换系统的预览内容。文章结构保持不变，主题只负责视觉层。
-        </p>
-        <pre><code>console.log("Hello Mushoku Blog");</code></pre>
-    </main>
-
-    <footer>
-        <p>Theme Gallery</p>
-    </footer>
-
-    <script src="script.js"></script>
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka.github.io">GitHub ↗</a></nav>
+</div></footer>
 </body>
 </html>

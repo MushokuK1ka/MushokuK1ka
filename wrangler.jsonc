@@ -9,7 +9,7 @@
     "directory": ".",
     "binding": "ASSETS",
     "html_handling": "none",
-    "run_worker_first": ["/", "/index.html", "/posts.html"]
+    "run_worker_first": ["/", "/index.html", "/posts.html", "/feed.xml"]
   },
   "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],
   "d1_databases": [

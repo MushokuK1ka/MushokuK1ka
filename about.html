@@ -1,25 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我 | 我的博客</title>
-    <link rel="stylesheet" href="style.css?v=20260816-3">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="关于 tsumugi 和这个个人博客。">
+  <title>关于 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
 </head>
-<body>
-    <header>
-        <h1>关于我</h1>
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="about.html">关于</a>
-            <a href="posts.html">文章</a>
-        </nav>
-    </header>
+<body class="about-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html">文章</a>
+    <a href="/about.html" aria-current="page">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
 
-    <main>
+<main id="main" class="wrap inner-page prose-page">
+  <header class="page-heading"><h1>关于我</h1><p>我是 tsumugi。这里是我的个人博客。</p></header>
+  <div class="article-content">
         <h2>关于这个博客</h2>
-        <p>这个博客使用纯 HTML/CSS/JavaScript 搭建，托管在 GitHub Pages 上。</p>
-        <p>绑定域名：tsumugi.cc.cd</p>
+        <p>这里用来分享学习笔记、项目实践和设备排查记录。</p>
 
         <h3>我的技术栈</h3>
         <ul>
@@ -40,12 +50,12 @@
             <li>因参考本站内容导致的设备异常、数据丢失或其他问题，由使用者自行承担责任。</li>
             <li>本站不代表任何厂商、运营商或第三方软件开发者立场。</li>
         </ul>
-    </main>
+  </div>
+</main>
 
-    <footer>
-        <p>&copy; 2026 我的博客 | 保留所有权利</p>
-    </footer>
-
-    <script src="script.js?v=20260816-3"></script>
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka.github.io">GitHub ↗</a></nav>
+</div></footer>
 </body>
 </html>

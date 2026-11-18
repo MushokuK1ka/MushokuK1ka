@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>tsumugi. 博客</title>
+    <link>https://tsumugi.cc.cd/</link>
+    <description>技术学习、设备排查与日常记录。</description>
+    <language>zh-CN</language>
+    <item><title>拯救者 R9000P 内置键盘间歇性失灵：可能只是被 Windows“省电断电”了</title><link>https://tsumugi.cc.cd/posts/legion-r9000p-keyboard-power-saving.html</link><guid>https://tsumugi.cc.cd/posts/legion-r9000p-keyboard-power-saving.html</guid><pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate></item>
+    <item><title>创维E900V22D通过ADB安装第三方软件</title><link>https://tsumugi.cc.cd/posts/skyworth-e900v22d-adb.html</link><guid>https://tsumugi.cc.cd/posts/skyworth-e900v22d-adb.html</guid><pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate></item>
+    <item><title>第二篇博客：学习HTML和CSS</title><link>https://tsumugi.cc.cd/posts/second-post.html</link><guid>https://tsumugi.cc.cd/posts/second-post.html</guid><pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate></item>
+    <item><title>第一篇博客：开始我的博客之旅</title><link>https://tsumugi.cc.cd/posts/first-post.html</link><guid>https://tsumugi.cc.cd/posts/first-post.html</guid><pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate></item>
+  </channel>
+</rss>
