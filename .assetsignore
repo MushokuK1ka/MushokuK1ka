@@ -10,7 +10,4 @@
 !/desk.webp
 !/favicon.png
 !/images/
-!/images/cloudflare-blog/
-!/images/cloudflare-blog/dns-lookup.png
-!/images/cloudflare-blog/request-paths.png
-!/images/cloudflare-blog/publish-paths.png
+!/images/**
