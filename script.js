@@ -81,7 +81,7 @@ function createThemeSwitcher() {
                     <span class="theme-option__desc">${value.desc}</span>
                 </button>
             `).join('')}
-            <a class="theme-preview-link" href="theme-preview.html">查看五种主题预览 →</a>
+            <a class="theme-preview-link" href="/theme-preview.html">查看五种主题预览 →</a>
         </div>
     `;
 
@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
     displayDateTime();
 
     const savedTheme = localStorage.getItem('mushoku-theme') || 'paper';
-    applyTheme(savedTheme);
     createThemeSwitcher();
+    applyTheme(savedTheme);
 
     console.log('博客已加载，主题系统已启用！');
 });

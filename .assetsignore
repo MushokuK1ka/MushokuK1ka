@@ -1,0 +1,8 @@
+# Serve only the files used by the site's public pages.
+*
+!/index.html
+!/posts.html
+!/about.html
+!/theme-preview.html
+!/style.css
+!/script.js
