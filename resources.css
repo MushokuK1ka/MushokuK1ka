@@ -135,7 +135,25 @@
   background: color-mix(in srgb, var(--category-color) 9%, var(--resource-panel));
 }
 
-.resource-card h3 { margin: 0; font-size: 1.05rem; line-height: 1.28; }
+.resource-card-heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.resource-brand {
+  display: grid;
+  flex: 0 0 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid #dbe2e9;
+  border-radius: min(var(--resource-radius), 8px);
+  background: #fff;
+}
+
+.resource-logo { display: block; object-fit: contain; }
+.resource-brand-initials { color: #35465b; font: 650 .95rem / 1 var(--mono); }
+.resource-card h3 { margin: 0; min-width: 0; font-size: 1.05rem; line-height: 1.28; }
 .resource-card p { margin: 5px 0 9px; color: var(--muted); font-size: .9rem; line-height: 1.5; }
 .resource-host { margin-top: auto; color: var(--accent); font: .82rem / 1.5 var(--mono); }
 .resource-empty { margin: 0; color: var(--muted); }
