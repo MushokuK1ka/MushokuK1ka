@@ -35,4 +35,4 @@ npm run blog:publish -- my-first-post
 - **发布**在 `agent/five-switchable-themes` 分支运行。命令会提交文章和引用的插图、推送到 GitHub Pages、部署 Worker，再把这篇文章写入线上 D1。首次使用的电脑需要能推送该仓库，并用 `npx wrangler login` 登录 Cloudflare。某一步中断时可重新执行同一条发布命令。
 - 发布后在两个站点检查文章。GitHub Pages 会在推送后构建新版主站。
 
-`npm run blog:build -- my-first-post` 只生成本地文件，适合检查脚本输出。建站学习日记的完整稿件在 [content/posts/cloudflare-blog-from-dns.md](content/posts/cloudflare-blog-from-dns.md)。
+`npm run blog:build -- my-first-post` 只生成本地文件，适合检查脚本输出。建站教程的完整稿件在 [content/posts/cloudflare-blog-from-dns.md](content/posts/cloudflare-blog-from-dns.md)。
