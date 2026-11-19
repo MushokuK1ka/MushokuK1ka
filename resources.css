@@ -82,7 +82,7 @@
 [data-resource-category="open-source"] { --category-color: #5579ac; }
 [data-resource-category="site-tools"] { --category-color: #bd754a; }
 [data-resource-category="sms"] { --category-color: #b05c83; }
-[data-resource-category="learning"] { --category-color: #5f8753; }
+[data-resource-category="dev-tools"] { --category-color: #5f8753; }
 [data-resource-category="design"] { --category-color: #a77732; }
 
 .resource-section-header {
