@@ -10,6 +10,7 @@ const themeKey = 'mushoku-theme';
 const themeSlot = document.querySelector('[data-theme-slot]');
 const pixelRoom = document.querySelector('[data-pixel-room]');
 const roomBackdrop = pixelRoom?.querySelector('[data-room-backdrop]');
+const roomClock = pixelRoom?.querySelector('[data-room-clock]');
 const roomScenes = [
   { key: 'morning', hour: 6, activity: '窗边喝茶', alt: '晨光映在湖面上。女孩盘腿坐在窗榻上，双手捧起青瓷茶杯，猫趴在她身旁。' },
   { key: 'day', hour: 9, activity: '桌前写作', alt: '阳光落在木桌上。女孩坐在电脑右侧，面朝屏幕，双手在键盘上打字。' },
@@ -21,10 +22,13 @@ function refreshRoom() {
   clearTimeout(roomTimer);
   if (!roomBackdrop || pixelRoom.hidden || document.hidden) return;
   const now = new Date();
-  const preview = new URLSearchParams(location.search).get('scene');
-  const pinned = roomScenes.find(scene => scene.key === preview);
   const hour = now.getHours();
-  const scene = pinned || roomScenes.findLast(scene => scene.hour <= hour) || roomScenes.at(-1);
+  const scene = roomScenes.findLast(scene => scene.hour <= hour) || roomScenes.at(-1);
+  if (roomClock) {
+    const time = String(hour).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    roomClock.textContent = time;
+    roomClock.dateTime = time;
+  }
   if (pixelRoom.dataset.period !== scene.key) {
     pixelRoom.removeAttribute('data-painted');
     pixelRoom.dataset.period = scene.key;
@@ -32,32 +36,15 @@ function refreshRoom() {
     roomBackdrop.src = '/images/studio-' + scene.key + '.webp?v=first-sprite';
     pixelRoom.querySelector('[data-room-activity]').textContent = scene.activity;
   }
-  for (const button of pixelRoom.querySelectorAll('[data-room-time]')) {
-    button.setAttribute('aria-pressed', String(button.dataset.roomTime === (pinned?.key || 'auto')));
-  }
-  if (!pinned) {
-    const next = roomScenes.find(scene => scene.hour > hour);
-    const change = new Date(now);
-    if (!next) change.setDate(change.getDate() + 1);
-    change.setHours((next || roomScenes[0]).hour, 0, 0, 0);
-    roomTimer = setTimeout(refreshRoom, change - now);
-  }
+  roomTimer = setTimeout(refreshRoom, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
 }
 if (roomBackdrop) {
+  const url = new URL(location.href);
+  if (url.searchParams.has('scene')) {
+    url.searchParams.delete('scene');
+    history.replaceState(history.state, '', url);
+  }
   roomBackdrop.addEventListener('load', () => pixelRoom.setAttribute('data-painted', ''));
-  pixelRoom.querySelector('.pixel-room-times').addEventListener('click', event => {
-    const button = event.target.closest('[data-room-time]');
-    if (!button) return;
-    const url = new URL(location.href);
-    if (button.dataset.roomTime === 'auto') {
-      url.searchParams.delete('scene');
-    } else {
-      url.searchParams.set('theme', 'pixel');
-      url.searchParams.set('scene', button.dataset.roomTime);
-    }
-    history.replaceState(null, '', url);
-    refreshRoom();
-  });
   document.addEventListener('visibilitychange', refreshRoom);
   window.addEventListener('pageshow', refreshRoom);
 }
@@ -125,9 +112,8 @@ for (const choice of themeChoices) {
   choice.addEventListener('click', () => {
     const { themeChoice } = choice.dataset;
     const url = new URL(location.href);
-    if (url.searchParams.has('theme') || (pixelRoom && url.searchParams.has('scene'))) {
+    if (url.searchParams.has('theme')) {
       url.searchParams.delete('theme');
-      if (pixelRoom) url.searchParams.delete('scene');
       history.replaceState(null, '', url);
     }
     applyTheme(themeChoice);

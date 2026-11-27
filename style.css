@@ -657,9 +657,18 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     clip-path: inset(50%);
   }
 }
+:root[data-theme="pixel"] .home-page {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+}
 :root[data-theme="pixel"] .home {
-  width: min(1440px, calc(100% - 40px));
-  padding-block: clamp(12px, 2vw, 25px);
+  display: grid;
+  min-height: 0;
+  width: min(960px, calc(100% - 32px));
+  padding-block: clamp(6px, 1.8vh, 18px);
 }
 :root[data-theme="pixel"] .home > :is(.hero, .latest) { display: none; }
 .pixel-room-sr {
@@ -674,15 +683,29 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .pixel-room {
   --room-border: #55485f;
   --room-ink: #fff2dc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.pixel-room-viewport {
+  container-type: size;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
 }
 .pixel-room-scene {
   position: relative;
   container-type: inline-size;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid var(--room-border);
-  border-bottom: 0;
-  border-radius: 10px 10px 0 0;
+  width: min(100cqw, calc(100cqh * 16 / 9));
+  outline: 1px solid var(--room-border);
+  outline-offset: -1px;
+  border-radius: 8px;
   background: #211c33;
 }
 .pixel-room-scene img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
@@ -768,49 +791,34 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .pixel-room-door--projects { inset: 36% 76% 34% 4%; }
 .pixel-room-door--posts { inset: 12% 1.5% 32% 82%; }
 .pixel-room-door--resources { inset: 72% 1% 8% 87%; }
-.pixel-room-controls {
+.pixel-room-caption {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 4px 16px;
   flex-wrap: wrap;
-  padding: 10px clamp(12px, 2vw, 24px);
-  border: 1px solid var(--room-border);
-  border-radius: 0 0 10px 10px;
-  background: #272133;
-  color: var(--room-ink);
+  flex: none;
+  padding-top: 6px;
+  font-size: .82rem;
+  color: var(--muted);
 }
-.pixel-room-activity { margin: 0; display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.pixel-room-caption time { font-variant-numeric: tabular-nums; }
+.pixel-room-activity { margin: 0; display: flex; align-items: center; gap: 8px; color: var(--room-ink); }
 .pixel-room-activity::before {
   content: ''; width: 7px; height: 7px; background: #edc39a; box-shadow: 0 0 0 2px #634d59;
-}
-.pixel-room-times { display: flex; flex-wrap: wrap; gap: 3px; }
-.pixel-room-times button {
-  padding: 5px 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background: transparent;
-  color: #d8cbdc;
-  cursor: pointer;
-  font: inherit;
-  font-size: .85rem;
-}
-.pixel-room-times button[aria-pressed="true"] { background: #594653; color: #fff1cf; border-color: #947777; }
-.pixel-room-times button:hover { color: white; }
-.pixel-room-times button:focus-visible { outline: 2px solid #ffd49c; outline-offset: 1px; }
-@media (max-width: 650px) {
-  .pixel-room-door > span { display: none; }
-  .pixel-room-times button { padding: 6px 7px; }
 }
 .pixel-room-shortcuts { display: none; }
 @media (max-width: 650px) {
   :root[data-theme="pixel"] .home { width: calc(100% - 20px); }
+  .pixel-room-door > span { display: none; }
   .pixel-room-shortcuts {
     display: flex;
+    width: 100%;
+    flex: none;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 8px;
   }
   .pixel-room-shortcuts a {
     flex: 1 0 auto;
@@ -824,4 +832,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     text-decoration: none;
   }
   .pixel-room-shortcuts a:hover { background: var(--panel); }
+}
+@media (max-height: 500px) {
+  :root[data-theme="pixel"] .home-page .header-inner { min-height: 44px; }
+  :root[data-theme="pixel"] .home-page .footer-inner { min-height: 32px; }
+  :root[data-theme="pixel"] .home-page .theme-switcher__menu {
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+  }
 }
