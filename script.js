@@ -4,9 +4,63 @@ const themes = {
   sakura: 'Sakura Journal',
   glass: 'Glass UI',
   terminal: 'Retro Terminal',
+  pixel: '像素房间',
 };
 const themeKey = 'mushoku-theme';
 const themeSlot = document.querySelector('[data-theme-slot]');
+const pixelRoom = document.querySelector('[data-pixel-room]');
+const roomBackdrop = pixelRoom?.querySelector('[data-room-backdrop]');
+const roomScenes = [
+  { key: 'morning', hour: 6, activity: '窗边喝茶', alt: '晨光映在湖面上。女孩盘腿坐在窗榻上，双手捧起青瓷茶杯，猫趴在她身旁。' },
+  { key: 'day', hour: 9, activity: '桌前写作', alt: '阳光落在木桌上。女孩坐在电脑右侧，面朝屏幕，双手在键盘上打字。' },
+  { key: 'night', hour: 18, activity: '灯下读书', alt: '湖面染上靛蓝。女孩盘腿坐在地毯上，借着黄铜落地灯的光翻书。' },
+  { key: 'late', hour: 22, activity: '窗榻熟睡', alt: '月光照进阁楼。女孩放下贝雷帽，盖着薄毯睡在窗榻上，猫蜷在她脚边。' },
+];
+let roomTimer;
+function refreshRoom() {
+  clearTimeout(roomTimer);
+  if (!roomBackdrop || pixelRoom.hidden || document.hidden) return;
+  const now = new Date();
+  const preview = new URLSearchParams(location.search).get('scene');
+  const pinned = roomScenes.find(scene => scene.key === preview);
+  const hour = now.getHours();
+  const scene = pinned || roomScenes.findLast(scene => scene.hour <= hour) || roomScenes.at(-1);
+  if (pixelRoom.dataset.period !== scene.key) {
+    pixelRoom.removeAttribute('data-painted');
+    pixelRoom.dataset.period = scene.key;
+    roomBackdrop.alt = scene.alt;
+    roomBackdrop.src = '/images/studio-' + scene.key + '.webp?v=first-sprite';
+    pixelRoom.querySelector('[data-room-activity]').textContent = scene.activity;
+  }
+  for (const button of pixelRoom.querySelectorAll('[data-room-time]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.roomTime === (pinned?.key || 'auto')));
+  }
+  if (!pinned) {
+    const next = roomScenes.find(scene => scene.hour > hour);
+    const change = new Date(now);
+    if (!next) change.setDate(change.getDate() + 1);
+    change.setHours((next || roomScenes[0]).hour, 0, 0, 0);
+    roomTimer = setTimeout(refreshRoom, change - now);
+  }
+}
+if (roomBackdrop) {
+  roomBackdrop.addEventListener('load', () => pixelRoom.setAttribute('data-painted', ''));
+  pixelRoom.querySelector('.pixel-room-times').addEventListener('click', event => {
+    const button = event.target.closest('[data-room-time]');
+    if (!button) return;
+    const url = new URL(location.href);
+    if (button.dataset.roomTime === 'auto') {
+      url.searchParams.delete('scene');
+    } else {
+      url.searchParams.set('theme', 'pixel');
+      url.searchParams.set('scene', button.dataset.roomTime);
+    }
+    history.replaceState(null, '', url);
+    refreshRoom();
+  });
+  document.addEventListener('visibilitychange', refreshRoom);
+  window.addEventListener('pageshow', refreshRoom);
+}
 const themeChoices = [...document.querySelectorAll('[data-theme-choice]')];
 
 if (themeSlot) {
@@ -48,6 +102,10 @@ if (themeSlot) {
 function applyTheme(preference) {
   const theme = Object.hasOwn(themes, preference) ? preference : 'paper';
   document.documentElement.dataset.theme = theme;
+  if (pixelRoom) {
+    pixelRoom.hidden = theme !== 'pixel';
+    refreshRoom();
+  }
   const current = themeSlot?.querySelector('[data-current-theme]');
   if (current) current.textContent = themes[theme];
   for (const choice of themeChoices) {
@@ -61,10 +119,17 @@ try {
 } catch {
   // Themes still work without persistent browser storage.
 }
-applyTheme(savedTheme);
+const requestedTheme = new URLSearchParams(location.search).get('theme');
+applyTheme(Object.hasOwn(themes, requestedTheme) ? requestedTheme : savedTheme);
 for (const choice of themeChoices) {
   choice.addEventListener('click', () => {
     const { themeChoice } = choice.dataset;
+    const url = new URL(location.href);
+    if (url.searchParams.has('theme') || (pixelRoom && url.searchParams.has('scene'))) {
+      url.searchParams.delete('theme');
+      if (pixelRoom) url.searchParams.delete('scene');
+      history.replaceState(null, '', url);
+    }
     applyTheme(themeChoice);
     try {
       localStorage.setItem(themeKey, themeChoice);
