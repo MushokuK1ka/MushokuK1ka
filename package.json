@@ -1,0 +1,16 @@
+{
+  "name": "tsumugi-blog",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "blog:build": "node scripts/blog.mjs build",
+    "blog:preview": "node scripts/blog.mjs preview",
+    "blog:publish": "node scripts/blog.mjs publish"
+  },
+  "devDependencies": {
+    "markdown-it": "15.0.3",
+    "wrangler": "4.164.0",
+    "yaml": "2.9.1"
+  }
+}

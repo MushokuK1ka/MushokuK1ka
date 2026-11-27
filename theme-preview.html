@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="预览并切换 tsumugi 博客的主题。">
+  <title>主题预览 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261127-first-sprite">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+</head>
+<body class="themes-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html">文章</a>
+    <a href="/resources.html">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<main id="main" class="wrap inner-page">
+  <header class="page-heading"><h1>主题预览</h1><p>选择一个主题应用到全站。</p><p><a href="/?theme=pixel">试用像素房间 ↗</a></p></header>
+  <div class="theme-preview-grid">
+    <button type="button" class="theme-preview-card" data-theme-choice="paper" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Paper White</strong><span>暖白纸页、衬线字体与细边框。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="cyber" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Cyber Neon</strong><span>深色网格、霓虹边框与直角面板。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="sakura" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Sakura Journal</strong><span>樱粉和草绿色的手账卡片。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="glass" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Glass UI</strong><span>macOS 风格的毛玻璃浮层和彩色壁纸。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="terminal" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>Retro Terminal</strong><span>绿屏扫描线、等宽字与命令提示符。</span></button>
+    <button type="button" class="theme-preview-card" data-theme-choice="pixel" aria-pressed="false"><span class="theme-swatch" aria-hidden="true"></span><strong>像素房间</strong><span>走进湖边的阁楼，点电脑、书架和工具箱逛博客。窗外的光随时间变化。</span></button>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="tsumugi 的在线工具和资源导航，包含 URL 编解码、哈希计算、开源镜像、域名查询、接码和图片压缩工具。">
+  <title>资源导航 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="stylesheet" href="/resources.css?v=20261119-logos">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+  <script src="/resources.js?v=20261119" defer></script>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html">文章</a>
+    <a href="/resources.html" aria-current="page">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<main id="main" class="wrap inner-page resources-page">
+  <header class="page-heading">
+    <h1>资源导航</h1>
+    <p>在线工具、开源资源站与常用服务入口。</p>
+  </header>
+
+  <div class="resource-controls" data-resource-controls hidden>
+    <form class="resource-search" role="search" aria-label="搜索资源">
+      <span class="search-icon" aria-hidden="true"></span>
+      <label class="sr-only" for="resource-query">搜索资源</label>
+      <input id="resource-query" type="search" placeholder="搜索 URL 编码、SHA-256、接码…" autocomplete="off" spellcheck="false">
+      <button type="button" class="resource-clear" data-resource-clear hidden>清除</button>
+    </form>
+
+    <div class="resource-categories" role="group" aria-label="按分类筛选">
+      <button type="button" data-resource-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-resource-filter="encoding" aria-pressed="false">编码与格式</button>
+      <button type="button" data-resource-filter="crypto" aria-pressed="false">密码学</button>
+      <button type="button" data-resource-filter="open-source" aria-pressed="false">开源与镜像</button>
+      <button type="button" data-resource-filter="site-tools" aria-pressed="false">建站工具</button>
+      <button type="button" data-resource-filter="sms" aria-pressed="false">接码服务</button>
+      <button type="button" data-resource-filter="dev-tools" aria-pressed="false">开发辅助</button>
+      <button type="button" data-resource-filter="design" aria-pressed="false">设计素材</button>
+    </div>
+    <p class="resource-count" data-resource-count role="status"></p>
+  </div>
+
+  <div class="resource-directory">
+    <section class="resource-section" aria-labelledby="encoding-heading" data-resource-category="encoding">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">%</span>
+        <div>
+          <h2 id="encoding-heading">编码与格式</h2>
+          <p>转换文本、校验数据格式。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="url url编码 url解码 网址编码 urlencode urldecode encodeURI percent encoding 中文 参数">
+          <a class="resource-card" href="https://www.urlencoder.org/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/urlencoder.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>URL 编解码</h3>
+            </div>
+            <p>转换网址参数中的百分号编码，页面可切换到解码。</p>
+            <span class="resource-host">urlencoder.org</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="json 格式化 校验 validator pretty">
+          <a class="resource-card" href="https://jsonlint.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/jsonlint.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>JSONLint</h3>
+            </div>
+            <p>检查 JSON 语法并整理缩进。</p>
+            <span class="resource-host">jsonlint.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="base64 encode decode 编码 解码 文本">
+          <a class="resource-card" href="https://www.base64encode.org/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/base64.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Base64 编解码</h3>
+            </div>
+            <p>将文本转换为 Base64，或切换到解码页面还原文本。</p>
+            <span class="resource-host">base64encode.org</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="crypto-heading" data-resource-category="crypto">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">#</span>
+        <div>
+          <h2 id="crypto-heading">密码学</h2>
+          <p>计算文本哈希和文件校验值。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="md5 sha1 sha256 sha-256 aes 哈希 摘要 base64">
+          <a class="resource-card" href="https://gchq.github.io/CyberChef/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/cyberchef.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>CyberChef</h3>
+            </div>
+            <p>执行哈希、Base64 转换及其他数据处理操作。</p>
+            <span class="resource-host">gchq.github.io</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="sha256 sha-256 hash 摘要 哈希 文本">
+          <a class="resource-card" href="https://emn178.github.io/online-tools/sha256.html">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/emn178.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>SHA-256 文本哈希</h3>
+            </div>
+            <p>输入文本，计算对应的 SHA-256 摘要。</p>
+            <span class="resource-host">emn178.github.io</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="sha256 sha-256 file checksum 文件 校验 哈希">
+          <a class="resource-card" href="https://emn178.github.io/online-tools/sha256_checksum.html">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/emn178.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>SHA-256 文件校验</h3>
+            </div>
+            <p>选择本地文件计算校验值，便于核对下载文件。</p>
+            <span class="resource-host">emn178.github.io</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="open-source-heading" data-resource-category="open-source">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">≋</span>
+        <div>
+          <h2 id="open-source-heading">开源与镜像</h2>
+          <p>查找项目源码、模型数据和容器镜像。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="git github release repository 代码 仓库 开源资源站">
+          <a class="resource-card" href="https://github.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/github.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>GitHub</h3>
+            </div>
+            <p>查找开源项目、源码和发布版本。</p>
+            <span class="resource-host">github.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="hf huggingface ai dataset model 模型 数据集">
+          <a class="resource-card" href="https://huggingface.co/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/huggingface.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Hugging Face</h3>
+            </div>
+            <p>浏览机器学习模型、数据集与在线演示。</p>
+            <span class="resource-host">huggingface.co</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="hf huggingface ai 模型 下载 镜像">
+          <a class="resource-card" href="https://hf-mirror.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/hf-mirror.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>HF-Mirror</h3>
+            </div>
+            <p>Hugging Face 模型和数据集的第三方镜像。</p>
+            <span class="resource-host">hf-mirror.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="docker hub container 容器 镜像 tag">
+          <a class="resource-card" href="https://hub.docker.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/docker.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Docker Hub</h3>
+            </div>
+            <p>查找容器镜像及其版本标签。</p>
+            <span class="resource-host">hub.docker.com</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="site-tools-heading" data-resource-category="site-tools">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">⌁</span>
+        <div>
+          <h2 id="site-tools-heading">建站工具</h2>
+          <p>注册域名、查询 DNS 记录和检测网站连通性。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="google dig dns ns txt cname a aaaa mx 域名 解析">
+          <a class="resource-card" href="https://toolbox.googleapps.com/apps/dig/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/google.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Google Admin Toolbox · Dig</h3>
+            </div>
+            <p>输入域名并选择记录类型，查询 DNS 解析结果。</p>
+            <span class="resource-host">toolbox.googleapps.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="dnshe dns ns 域名 解析">
+          <a class="resource-card" href="https://www.dnshe.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/dnshe.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>DNSHE</h3>
+            </div>
+            <p>查看域名注册和 DNS 解析服务。</p>
+            <span class="resource-host">dnshe.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="ping chinaz 延迟 测速 连通性 网络">
+          <a class="resource-card" href="https://ping.chinaz.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/chinaz.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>站长工具 · 多地 Ping</h3>
+            </div>
+            <p>从多个探测点查看目标的延迟和连通性。</p>
+            <span class="resource-host">ping.chinaz.com</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="sms-heading" data-resource-category="sms">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">· · ·</span>
+        <div>
+          <h2 id="sms-heading">接码服务</h2>
+          <p>第三方虚拟号码与短信接收服务。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="5sim 临时号码 接码服务 短信 sms">
+          <a class="resource-card" href="https://5sim.net/zh">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/5sim.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>5SIM</h3>
+            </div>
+            <p>提供临时虚拟号码的第三方短信接收服务。</p>
+            <span class="resource-host">5sim.net</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="hero sms 临时号码 接码服务 短信">
+          <a class="resource-card" href="https://hero-sms.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><span class="resource-brand-initials">HS</span></span>
+              <h3>HeroSMS</h3>
+            </div>
+            <p>提供虚拟号码和号码租用的第三方服务。</p>
+            <span class="resource-host">hero-sms.com</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="dev-tools-heading" data-resource-category="dev-tools">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">{ }</span>
+        <div>
+          <h2 id="dev-tools-heading">开发辅助</h2>
+          <p>调试正则、比较文本和转换时间戳。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="regex regexp expression 正则 匹配 测试 调试">
+          <a class="resource-card" href="https://regex101.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/regex101.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>regex101 · 正则测试</h3>
+            </div>
+            <p>输入表达式和样本文本，查看匹配结果及分组。</p>
+            <span class="resource-host">regex101.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="diff compare 文本 比较 对比 差异">
+          <a class="resource-card" href="https://www.diffchecker.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/diffchecker.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Diffchecker · 文本对比</h3>
+            </div>
+            <p>并排比较两段文本，定位增加、删除和修改的行。</p>
+            <span class="resource-host">diffchecker.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="epoch unix timestamp 时间戳 日期 时区 转换">
+          <a class="resource-card" href="https://www.epochconverter.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/epoch-converter.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Epoch Converter · 时间戳转换</h3>
+            </div>
+            <p>在 Unix 时间戳和可读日期之间转换。</p>
+            <span class="resource-host">epochconverter.com</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="resource-section" aria-labelledby="design-heading" data-resource-category="design">
+      <header class="resource-section-header">
+        <span class="resource-icon" aria-hidden="true">◇</span>
+        <div>
+          <h2 id="design-heading">设计素材</h2>
+          <p>查找素材、压缩图片与转换格式。</p>
+        </div>
+      </header>
+      <ul class="resource-grid">
+        <li data-resource data-keywords="iconify icon svg 图标 素材">
+          <a class="resource-card" href="https://icon-sets.iconify.design/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/iconify.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Iconify</h3>
+            </div>
+            <p>按名称或图标集查找开源图标。</p>
+            <span class="resource-host">icon-sets.iconify.design</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="unsplash photo 图片 摄影 素材">
+          <a class="resource-card" href="https://unsplash.com/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/unsplash.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Unsplash</h3>
+            </div>
+            <p>浏览照片素材并查看图片的许可条款。</p>
+            <span class="resource-host">unsplash.com</span>
+          </a>
+        </li>
+        <li data-resource data-keywords="squoosh compress jpg png webp 图片 压缩 转换">
+          <a class="resource-card" href="https://squoosh.app/">
+            <div class="resource-card-heading">
+              <span class="resource-brand" aria-hidden="true"><img class="resource-logo" src="/images/resource-logos/squoosh.png" width="32" height="32" alt="" loading="lazy" decoding="async"></span>
+              <h3>Squoosh · 图片压缩</h3>
+            </div>
+            <p>在浏览器中压缩图片，比较质量和文件大小。</p>
+            <span class="resource-host">squoosh.app</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </div>
+  <p class="resource-empty" data-resource-empty hidden>没有找到符合条件的资源。可以换个关键词或选择「全部」。</p>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

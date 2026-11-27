@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tsumugi-blog",
+  "main": "./_worker/index.js",
+  "compatibility_date": "2026-11-18",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "run_worker_first": ["/", "/index.html", "/posts.html", "/feed.xml", "/profile/room.svg"]
+  },
+  "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tsumugi-blog-db",
+      "database_id": "3e22e9e6-2db6-4599-950a-f3a6025771dd",
+      "migrations_dir": "./_worker/migrations"
+    }
+  ]
+}
