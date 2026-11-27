@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="tsumugi 的个人项目、实现记录和源代码。">
   <title>项目 | tsumugi.</title>
-  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="stylesheet" href="/style.css?v=20261127-room-wide">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <script src="/script.js?v=20261119" defer></script>
+  <script src="/script.js?v=20261127-room-fit" defer></script>
+  <script src="/projects.js" defer></script>
 </head>
 <body class="projects-page" id="top">
 <a class="skip-link" href="#main">跳到正文</a>
@@ -31,14 +32,21 @@
     <a class="back-link" href="/?theme=pixel">← 返回像素房间</a>
     <h1>项目</h1>
   </header>
-  <div class="article-content">
-    <h2>tsumugi. 个人博客</h2>
-    <p>用 HTML、CSS 和 JavaScript 搭建的个人博客。通过 GitHub Pages 提供静态版，由 Cloudflare Workers 和 D1 提供动态版。</p>
-    <div class="hero-actions">
-      <a class="button button-primary" href="/posts/cloudflare-blog-from-dns.html">阅读建站教程</a>
-      <a class="button button-link" href="https://github.com/MushokuK1ka/MushokuK1ka.github.io">查看源码 ↗</a>
-      <a class="button button-link" href="https://github.com/MushokuK1ka?tab=repositories">更多项目 ↗</a>
-    </div>
+  <ul class="project-list" data-project-list aria-label="公开 GitHub 仓库">
+    <li><a href="https://github.com/MushokuK1ka/MushokuK1ka.github.io">
+      <strong data-repo-name>MushokuK1ka.github.io</strong>
+      <span data-repo-description>个人博客源码，包括像素房间、文章和资源导航。</span>
+      <small data-repo-meta>HTML</small>
+    </a></li>
+    <li><a href="https://github.com/MushokuK1ka/MushokuK1ka">
+      <strong data-repo-name>MushokuK1ka</strong>
+      <span data-repo-description>像素房间 · 个人主页</span>
+      <small data-repo-meta hidden></small>
+    </a></li>
+  </ul>
+  <div class="hero-actions">
+    <a class="back-link" href="https://github.com/MushokuK1ka?tab=repositories">在 GitHub 查看全部仓库 ↗</a>
+    <a class="back-link" href="/posts/cloudflare-blog-from-dns.html">阅读建站教程</a>
   </div>
 </main>
 

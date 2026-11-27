@@ -377,6 +377,32 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .reading-sidebar .toc-subheading { padding-inline-start: 10px; }
 .reading-progress { position: fixed; inset: 0 auto auto 0; width: 100%; height: 3px; background: var(--accent); transform-origin: left; transform: scaleX(0); z-index: 8; }
 .prose-page { max-width: 900px; }
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
+}
+.project-list a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  height: 100%;
+  padding: 20px 36px 20px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.project-list a::after { content: "↗"; position: absolute; top: 17px; right: 15px; color: var(--accent); }
+.project-list a:hover, .project-list a:focus-visible { border-color: var(--accent); }
+.project-list strong { color: var(--ink); font-size: 1.08rem; }
+.project-list span, .project-list small { color: var(--muted); }
+.project-list small { margin-top: auto; font-family: var(--mono); }
 
 .theme-switcher { position: relative; }
 .theme-switcher__toggle { min-height: 37px; font-size: .82rem; padding-inline: 11px; }
@@ -657,18 +683,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     clip-path: inset(50%);
   }
 }
-:root[data-theme="pixel"] .home-page {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  height: 100vh;
-  height: 100dvh;
-  min-height: 0;
-}
 :root[data-theme="pixel"] .home {
-  display: grid;
-  min-height: 0;
-  width: min(960px, calc(100% - 32px));
-  padding-block: clamp(6px, 1.8vh, 18px);
+  width: min(1440px, calc(100% - 40px));
+  padding-block: clamp(12px, 2vw, 25px);
 }
 :root[data-theme="pixel"] .home > :is(.hero, .latest) { display: none; }
 .pixel-room-sr {
@@ -683,26 +700,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .pixel-room {
   --room-border: #55485f;
   --room-ink: #fff2dc;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
-}
-.pixel-room-viewport {
-  container-type: size;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 0;
 }
 .pixel-room-scene {
   position: relative;
   container-type: inline-size;
   isolation: isolate;
   overflow: hidden;
-  width: min(100cqw, calc(100cqh * 16 / 9));
   outline: 1px solid var(--room-border);
   outline-offset: -1px;
   border-radius: 8px;
