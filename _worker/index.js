@@ -1,4 +1,5 @@
 import postTemplate from '../posts/first-post.html';
+import { profileRoom } from './profile-room.js';
 
 const postPath = /^\/posts\/([a-z0-9-]+)\.html$/;
 const postColumns = 'SELECT slug, title, published_on FROM posts';
@@ -10,9 +11,10 @@ export default {
     const isHome = url.pathname === '/' || url.pathname === '/index.html';
     const isArchive = url.pathname === '/posts.html';
     const isFeed = url.pathname === '/feed.xml';
+    const isProfileRoom = url.pathname === '/profile/room.svg';
     const post = url.pathname.match(postPath);
 
-    if (!isHome && !isArchive && !isFeed && !post) return env.ASSETS.fetch(request);
+    if (!isHome && !isArchive && !isFeed && !isProfileRoom && !post) return env.ASSETS.fetch(request);
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', {
         status: 405,
@@ -20,6 +22,7 @@ export default {
       });
     }
 
+    if (isProfileRoom) return profileRoom(request, env.ASSETS);
     let response;
     if (isFeed) response = await renderFeed(env.DB, url.origin);
     else if (post) response = await renderPost(env.DB, post[1], url);

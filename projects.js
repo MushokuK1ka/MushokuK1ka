@@ -28,7 +28,9 @@ async function refreshProjects() {
     const repos = await response.json();
     if (!Array.isArray(repos)) return;
     for (const repo of repos) {
-      if (!repo.private && repo.owner?.login === projectOwner) cards.append(renderProject(repo));
+      if (!repo.private && repo.owner?.login === projectOwner && repo.name !== projectOwner) {
+        cards.append(renderProject(repo));
+      }
     }
     if (repos.length < 100) break;
   }
