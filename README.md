@@ -1,5 +1,7 @@
 # tsumugi 博客
 
+<p align="center"><a href="https://tsumugi.cc.cd/?theme=pixel"><img src="https://p.tsumugi.cc.cd/profile/room.svg" width="960" alt="进入像素房间"></a></p>
+
 主站 [tsumugi.cc.cd](https://tsumugi.cc.cd/) 用 GitHub Pages。动态站 [p.tsumugi.cc.cd](https://p.tsumugi.cc.cd/) 用 Cloudflare Workers 和 D1。
 
 ## 写新文章或修改旧稿
