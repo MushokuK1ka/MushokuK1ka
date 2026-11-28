@@ -1,16 +1,31 @@
 ---
-title: "外观数列：怎样把 1211 读成下一项？"
+title: "外观数列"
 date: "2026-10-27"
 description: "把每一段相邻相同的数字读成长度和数字，再逐项迭代。"
 ---
 
 ## 第 38 题 · 外观数列
 
-第一项是字符串 `"1"`。此后从左到右读上一项，每遇到一段连续相同的数字，就依次写出这一段的长度和数字本身。把各段的结果连起来便是下一项。给定 `n`，返回第 `n` 项字符串。 [力扣原题全文](https://leetcode.cn/problems/count-and-say/description/)
-
-**数据范围**　`1 ≤ n ≤ 30`。
-
-**题目样例**　`n = 1` 得 `"1"`。`n = 4` 得 `"1211"`，因为第三项 `"21"` 读作“一个 2，一个 1”。
+<details class="problem-statement">
+<summary>题面与示例（2 组）</summary>
+<p>外观数列的每一项都是字符串。第一项是 <code>&quot;1&quot;</code>，以后每一项取上一项的行程长度编码。给定正整数 <code>n</code>，返回第 <code>n</code> 项。</p>
+<p>编码时从左向右，把连续相同的数字分成尽可能长的一段，再依次写下各段的长度和该段的数字。例如，<code>3322251</code> 分为 <code>33 | 222 | 5 | 1</code>，分别写成 <code>23 | 32 | 15 | 11</code>，拼起来就是 <code>23321511</code>。同一个数字如果隔开出现，需要分段计数。</p>
+<p>进阶要求：尝试用迭代生成各项。</p>
+<p><strong>数据范围</strong>　<code>1 ≤ n ≤ 30</code>。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+n = 4
+输出
+&quot;1211&quot;</code></pre>
+<p>依次得到 &quot;1&quot;、&quot;11&quot;、&quot;21&quot;、&quot;1211&quot;。第三项 &quot;21&quot; 有一个 2，接着有一个 1。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+n = 1
+输出
+&quot;1&quot;</code></pre>
+<p>第一项由定义直接给出。</p>
+<p><a href="https://leetcode.cn/problems/count-and-say/description/">题目来源：力扣 38 · 外观数列</a></p>
+</details>
 
 ## 解题思路
 

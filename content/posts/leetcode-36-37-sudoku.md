@@ -1,5 +1,5 @@
 ---
-title: "从有效数独到解数独：把检查过的格子记下来"
+title: "有效的数独、解数独"
 date: "2026-10-27"
 description: "复用行、列和宫的占用记录，写出能撤销选择的数独求解器。"
 ---
@@ -8,23 +8,46 @@ description: "复用行、列和宫的占用记录，写出能撤销选择的数
 
 ## 36 · 有效的数独
 
-给定一张部分填好的 9 × 9 棋盘。判断已填数字在每一行、每一列、每个 3 × 3 宫里是否都没有重复。满足三条规则就返回 `True`，即使从当前局面出发未必有解。 [力扣原题全文](https://leetcode.cn/problems/valid-sudoku/description/)
-
-**数据范围**　棋盘固定为九行九列，格子只能是字符 `1`–`9` 或表示空格的 `.`。
-
-**题目样例**　下方棋盘返回 `True`。若把它左上角的 `5` 改为 `8`，左上宫会出现两个 `8`，返回 `False`。
-
-```text
-53..7....
-6..195...
-.98....6.
-8...6...3
-4..8.3..1
-7...2...6
-.6....28.
-...419..5
-....8..79
-```
+<details class="problem-statement">
+<summary>题面与示例（2 组）</summary>
+<p>输入一个部分填好的 9 × 9 数独棋盘 <code>board</code>。每个格子是一个字符，<code>&quot;.&quot;</code> 表示空格，其他格子写着 1 至 9 中的某个数字。棋盘分成九个互不重叠的 3 × 3 宫。</p>
+<p>逐一检查三条规则：同一行里不能有两个相同的数字。同一列里不能有两个相同的数字。同一个宫里也不能有两个相同的数字。只检查已经填入的格子，空格不参与比较。</p>
+<p>只要三条规则都满足，就返回 <code>true</code>。出现任何冲突就返回 <code>false</code>。通过检查的局面可能无法填完，这一题不要求求解。</p>
+<p><strong>数据范围</strong>　棋盘固定为九行九列，格子只能是字符 <code>1</code>–<code>9</code> 或表示空格的 <code>.</code>。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+board = [
+  [&quot;5&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+true</code></pre>
+<p>已填的数字在各行、各列和各宫中均无重复。空格可以保留。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+board = [
+  [&quot;8&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+false</code></pre>
+<p>左上角的 5 改为 8 后，左上宫的第一行和第三行各有一个 8，已经冲突。</p>
+<p><a href="https://leetcode.cn/problems/valid-sudoku/description/">题目来源：力扣 36 · 有效的数独</a></p>
+</details>
 
 ### 解题思路
 
@@ -57,24 +80,39 @@ def is_valid_sudoku(board):
 
 ## 37 · 解数独
 
-给定含空格的 9 × 9 棋盘，把空格补上，让每行、每列和每个 3 × 3 宫都恰好包含一次 1–9。保留题目给定的数字，在原棋盘上写入解。 [力扣原题全文](https://leetcode.cn/problems/sudoku-solver/description/)
-
-**数据范围**　空格用 `.` 表示，每组输入恰有一个解。
-
-**题目样例**　下面两栏分别是题目给定的棋盘和填好后的棋盘，每一行对应棋盘的一行。
-
-```text
-给定棋盘     填写结果
-53..7....    534678912
-6..195...    672195348
-.98....6.    198342567
-8...6...3    859761423
-4..8.3..1    426853791
-7...2...6    713924856
-.6....28.    961537284
-...419..5    287419635
-....8..79    345286179
-```
+<details class="problem-statement">
+<summary>题面与示例（1 组）</summary>
+<p>输入一个 9 × 9 字符矩阵 <code>board</code>。数字 <code>1</code> 至 <code>9</code> 是已经给定的格子，<code>&quot;.&quot;</code> 代表待填的空格。九个互不重叠的 3 × 3 区域称为宫。</p>
+<p>请在原棋盘上补齐所有空格，保留已给出的数字。填好后，每一行中 1 至 9 都恰好出现一次，每一列也各出现一次，九个宫中的每一个同样如此。输入保证只有一组解，下面“输出”列出的是填好的棋盘。</p>
+<p><strong>数据范围</strong>　空格用 <code>.</code> 表示，每组输入恰有一个解。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+board = [
+  [&quot;5&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+[
+  [&quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;1&quot;, &quot;2&quot;],
+  [&quot;6&quot;, &quot;7&quot;, &quot;2&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;8&quot;],
+  [&quot;1&quot;, &quot;9&quot;, &quot;8&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;],
+  [&quot;8&quot;, &quot;5&quot;, &quot;9&quot;, &quot;7&quot;, &quot;6&quot;, &quot;1&quot;, &quot;4&quot;, &quot;2&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;2&quot;, &quot;6&quot;, &quot;8&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;9&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;1&quot;, &quot;3&quot;, &quot;9&quot;, &quot;2&quot;, &quot;4&quot;, &quot;8&quot;, &quot;5&quot;, &quot;6&quot;],
+  [&quot;9&quot;, &quot;6&quot;, &quot;1&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;2&quot;, &quot;8&quot;, &quot;4&quot;],
+  [&quot;2&quot;, &quot;8&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;6&quot;, &quot;3&quot;, &quot;5&quot;],
+  [&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;2&quot;, &quot;8&quot;, &quot;6&quot;, &quot;1&quot;, &quot;7&quot;, &quot;9&quot;]
+]</code></pre>
+<p>在给定棋盘中填上所有空格后，每一行、每一列、每一宫都含有 1 至 9，原来给出的数字保持在原位。</p>
+<p><a href="https://leetcode.cn/problems/sudoku-solver/description/">题目来源：力扣 37 · 解数独</a></p>
+</details>
 
 ### 解题思路
 

@@ -1,16 +1,36 @@
 ---
-title: "最长有效括号：栈里为什么要存下标？"
+title: "最长有效括号"
 date: "2026-10-26"
 description: "用 ()(() 解释失配的位置怎样决定连续括号的长度。"
 ---
 
 ## 第 32 题 · 最长有效括号
 
-字符串 `s` 只含左右圆括号。找出其中最长的一段连续子串，使这一段里的括号都能按顺序正确配对。返回它的字符数。 [力扣原题全文](https://leetcode.cn/problems/longest-valid-parentheses/description/)
-
-**数据范围**　字符串长度为 0–30000。
-
-**题目样例**　`"(()"` → `2`，其中最长的一段是 `"()"`。`")()())"` → `4`。空串 → `0`。
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>给定只含 <code>(</code> 和 <code>)</code> 的字符串 <code>s</code>，从中截取一段连续的字符，使其中的括号能完整配对。每个右括号要与前面尚未配对的一个左括号配对，结束时也不能剩下左括号。像 <code>(()())</code> 这样的嵌套是合法的。</p>
+<p>返回能取到的最长长度，单位是字符。若没有非空的有效片段，返回 0。</p>
+<p><strong>数据范围</strong>　字符串长度为 0–30000。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+s = &quot;(()&quot;
+输出
+2</code></pre>
+<p>末尾两位组成 ()，开头的左括号没有配对。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+s = &quot;)()())&quot;
+输出
+4</code></pre>
+<p>中间四个字符 ()() 连在一起，首尾的右括号都不能并入。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+s = &quot;&quot;
+输出
+0</code></pre>
+<p>空串的最长有效长度是 0。</p>
+<p><a href="https://leetcode.cn/problems/longest-valid-parentheses/description/">题目来源：力扣 32 · 最长有效括号</a></p>
+</details>
 
 ## 解题思路
 

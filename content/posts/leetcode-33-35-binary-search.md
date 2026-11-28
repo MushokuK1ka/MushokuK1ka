@@ -1,5 +1,5 @@
 ---
-title: "三道二分查找：旋转数组、左右边界与插入位置"
+title: "搜索旋转排序数组、在排序数组中查找元素的第一个和最后一个位置、搜索插入位置"
 date: "2026-10-26"
 description: "从同一个中点出发，分别决定该舍去半边、提前返回，还是留下插入点。"
 ---
@@ -8,11 +8,31 @@ description: "从同一个中点出发，分别决定该舍去半边、提前返
 
 ## 33 · 搜索旋转排序数组
 
-一个严格递增的整数数组经过循环左移，移动了多少位未知。给定移动后的 `nums` 和整数 `target`，返回目标在当前数组中的下标。找不到时返回 `-1`。时间限定为 O(log n)。 [力扣原题全文](https://leetcode.cn/problems/search-in-rotated-sorted-array/description/)
-
-**数据范围**　数组长度为 1–5000，元素互异，元素和目标均在 −10⁴ 至 10⁴ 之间。
-
-**题目样例**　`nums = [4, 5, 6, 7, 0, 1, 2]`，找 `0` 得 `4`，找 `3` 得 `-1`。
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>原数组是严格递增的整数序列，没有重复元素。对于长度为 <code>n</code> 的数组，选取一个未知下标 <code>k</code>（<code>0 ≤ k &lt; n</code>），把前 <code>k</code> 个数整体移到末尾。于是原下标 <code>k…n−1</code> 的部分在前，<code>0…k−1</code> 的部分在后。<code>k = 0</code> 时顺序不变。</p>
+<p>例如 <code>[0,1,2,4,5,6,7]</code> 左移三个位置可得 <code>[4,5,6,7,0,1,2]</code>。现在只给你旋转后的数组 <code>nums</code> 和一个整数 <code>target</code>。在 O(log n) 时间内返回目标在 <code>nums</code> 里的下标（从 0 开始）。目标不存在就返回 −1。</p>
+<p><strong>数据范围</strong>　数组长度为 1–5000，元素互异，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [4, 5, 6, 7, 0, 1, 2], target = 0
+输出
+4</code></pre>
+<p>旋转之后，0 在从零开始计数的下标 4。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [4, 5, 6, 7, 0, 1, 2], target = 3
+输出
+-1</code></pre>
+<p>数组中没有 3。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [1], target = 0
+输出
+-1</code></pre>
+<p>唯一的元素是 1。</p>
+<p><a href="https://leetcode.cn/problems/search-in-rotated-sorted-array/description/">题目来源：力扣 33 · 搜索旋转排序数组</a></p>
+</details>
 
 ### 解题思路
 
@@ -38,11 +58,31 @@ def search_rotated(a, target):
 
 ## 34 · 在排序数组中查找元素的第一个和最后一个位置
 
-给定非递减整数数组 `nums`。用 O(log n) 时间找出 `target` 第一次和最后一次出现的下标，按这个顺序返回两个值。如果没有这个数，返回 `[-1, -1]`。 [力扣原题全文](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/)
-
-**数据范围**　数组长度为 0–10⁵，元素与目标均在 −10⁹ 至 10⁹ 之间。
-
-**题目样例**　`nums = [5, 7, 7, 8, 8, 10]`，找 `8` 得 `[3, 4]`，找 `6` 得 `[-1, -1]`。
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>给定非递减的整数数组 <code>nums</code> 和整数 <code>target</code>。数组中允许有重复值。请返回 <code>[起点, 终点]</code>，分别是目标第一次和最后一次出现的下标，下标从 0 开始。只出现一次时，两个下标相同。</p>
+<p>若数组为空或目标没有出现，返回 <code>[-1, -1]</code>。整个查找须在 O(log n) 时间内完成。</p>
+<p><strong>数据范围</strong>　数组长度为 0–10⁵，元素与目标均在 −10⁹ 至 10⁹ 之间。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [5, 7, 7, 8, 8, 10], target = 8
+输出
+[3, 4]</code></pre>
+<p>两个 8 连续出现在下标 3 和 4。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [5, 7, 7, 8, 8, 10], target = 6
+输出
+[-1, -1]</code></pre>
+<p>6 没有出现，两个端点都用 −1 表示。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [], target = 0
+输出
+[-1, -1]</code></pre>
+<p>数组为空，没有可返回的下标。</p>
+<p><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/">题目来源：力扣 34 · 在排序数组中查找元素的第一个和最后一个位置</a></p>
+</details>
 
 ### 解题思路
 
@@ -74,11 +114,31 @@ def search_range(a, target):
 
 ## 35 · 搜索插入位置
 
-给定严格递增的整数数组和目标值。如果目标已存在，返回它的下标。如果不存在，返回把它插入后依然保持升序的下标。要求 O(log n) 时间。 [力扣原题全文](https://leetcode.cn/problems/search-insert-position/description/)
-
-**数据范围**　数组长度为 1–10⁴，元素和目标均在 −10⁴ 至 10⁴ 之间。
-
-**题目样例**　在 `[1, 3, 5, 6]` 中，`5` 的位置是 `2`，`2` 应插入下标 `1`，`7` 应插入下标 `4`（末尾）。
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>给定严格升序的整数数组 <code>nums</code> 和整数 <code>target</code>。若目标已经存在，返回它从 0 开始的下标。若不存在，返回把目标插入后仍能保持升序的位置。从头插入的下标是 0，追加到末尾的下标是数组长度。</p>
+<p>只需返回位置，要求用 O(log n) 时间完成。</p>
+<p><strong>数据范围</strong>　数组长度为 1–10⁴，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [1, 3, 5, 6], target = 5
+输出
+2</code></pre>
+<p>5 已经在下标 2。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [1, 3, 5, 6], target = 2
+输出
+1</code></pre>
+<p>插在 1 和 3 之间，新元素的下标为 1。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [1, 3, 5, 6], target = 7
+输出
+4</code></pre>
+<p>7 大于末尾元素，插入点正好等于数组长度。</p>
+<p><a href="https://leetcode.cn/problems/search-insert-position/description/">题目来源：力扣 35 · 搜索插入位置</a></p>
+</details>
 
 ### 解题思路
 

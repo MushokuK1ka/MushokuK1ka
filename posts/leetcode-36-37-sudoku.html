@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="复用行、列和宫的占用记录，写出能撤销选择的数独求解器。">
-  <title>从有效数独到解数独：把检查过的格子记下来 | tsumugi.</title>
+  <title>有效的数独、解数独 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -31,26 +31,53 @@
   <a class="back-link" href="/posts.html">← 全部文章</a>
   <header class="article-heading">
     <time class="post-date" datetime="2026-10-27">2026-10-27</time>
-    <h1 class="article-title">从有效数独到解数独：把检查过的格子记下来</h1>
+    <h1 class="article-title">有效的数独、解数独</h1>
   </header>
   <div class="reading-grid">
     <article class="reading-article">
       <div class="article-content">
 <p>10 月 26 日先做了数独的规则检查。第二天遇到解数独，正好可以把前一天写的检查接到回溯里。两题使用同一张样例棋盘。</p>
 <h2>36 · 有效的数独</h2>
-<p>给定一张部分填好的 9 × 9 棋盘。判断已填数字在每一行、每一列、每个 3 × 3 宫里是否都没有重复。满足三条规则就返回 <code>True</code>，即使从当前局面出发未必有解。 <a href="https://leetcode.cn/problems/valid-sudoku/description/">力扣原题全文</a></p>
+<details class="problem-statement">
+<summary>题面与示例（2 组）</summary>
+<p>输入一个部分填好的 9 × 9 数独棋盘 <code>board</code>。每个格子是一个字符，<code>&quot;.&quot;</code> 表示空格，其他格子写着 1 至 9 中的某个数字。棋盘分成九个互不重叠的 3 × 3 宫。</p>
+<p>逐一检查三条规则：同一行里不能有两个相同的数字。同一列里不能有两个相同的数字。同一个宫里也不能有两个相同的数字。只检查已经填入的格子，空格不参与比较。</p>
+<p>只要三条规则都满足，就返回 <code>true</code>。出现任何冲突就返回 <code>false</code>。通过检查的局面可能无法填完，这一题不要求求解。</p>
 <p><strong>数据范围</strong>　棋盘固定为九行九列，格子只能是字符 <code>1</code>–<code>9</code> 或表示空格的 <code>.</code>。</p>
-<p><strong>题目样例</strong>　下方棋盘返回 <code>True</code>。若把它左上角的 <code>5</code> 改为 <code>8</code>，左上宫会出现两个 <code>8</code>，返回 <code>False</code>。</p>
-<pre><code class="language-text">53..7....
-6..195...
-.98....6.
-8...6...3
-4..8.3..1
-7...2...6
-.6....28.
-...419..5
-....8..79
-</code></pre>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+board = [
+  [&quot;5&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+true</code></pre>
+<p>已填的数字在各行、各列和各宫中均无重复。空格可以保留。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+board = [
+  [&quot;8&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+false</code></pre>
+<p>左上角的 5 改为 8 后，左上宫的第一行和第三行各有一个 8，已经冲突。</p>
+<p><a href="https://leetcode.cn/problems/valid-sudoku/description/">题目来源：力扣 36 · 有效的数独</a></p>
+</details>
 <h3>解题思路</h3>
 <p>做有效数独时，首先想到逐行、逐列、逐宫检查。固定的 9 × 9 棋盘上，这个办法完全够用。也可以只扫描一次：遇到数字就记到它所属的行、列、宫里。三处只要有一处已经见过它，就产生了冲突。空格直接跳过。通过检查只能说明已填数字相容，棋盘是否有解还得继续推。</p>
 <p>下面的函数读完整张棋盘，碰到冲突就返回 <code>None</code>。第 36 题据此返回一个布尔值。</p>
@@ -76,20 +103,39 @@ def is_valid_sudoku(board):
     return sudoku_state(board) is not None
 </code></pre>
 <h2>37 · 解数独</h2>
-<p>给定含空格的 9 × 9 棋盘，把空格补上，让每行、每列和每个 3 × 3 宫都恰好包含一次 1–9。保留题目给定的数字，在原棋盘上写入解。 <a href="https://leetcode.cn/problems/sudoku-solver/description/">力扣原题全文</a></p>
+<details class="problem-statement">
+<summary>题面与示例（1 组）</summary>
+<p>输入一个 9 × 9 字符矩阵 <code>board</code>。数字 <code>1</code> 至 <code>9</code> 是已经给定的格子，<code>&quot;.&quot;</code> 代表待填的空格。九个互不重叠的 3 × 3 区域称为宫。</p>
+<p>请在原棋盘上补齐所有空格，保留已给出的数字。填好后，每一行中 1 至 9 都恰好出现一次，每一列也各出现一次，九个宫中的每一个同样如此。输入保证只有一组解，下面“输出”列出的是填好的棋盘。</p>
 <p><strong>数据范围</strong>　空格用 <code>.</code> 表示，每组输入恰有一个解。</p>
-<p><strong>题目样例</strong>　下面两栏分别是题目给定的棋盘和填好后的棋盘，每一行对应棋盘的一行。</p>
-<pre><code class="language-text">给定棋盘     填写结果
-53..7....    534678912
-6..195...    672195348
-.98....6.    198342567
-8...6...3    859761423
-4..8.3..1    426853791
-7...2...6    713924856
-.6....28.    961537284
-...419..5    287419635
-....8..79    345286179
-</code></pre>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+board = [
+  [&quot;5&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+[
+  [&quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;1&quot;, &quot;2&quot;],
+  [&quot;6&quot;, &quot;7&quot;, &quot;2&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;8&quot;],
+  [&quot;1&quot;, &quot;9&quot;, &quot;8&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;],
+  [&quot;8&quot;, &quot;5&quot;, &quot;9&quot;, &quot;7&quot;, &quot;6&quot;, &quot;1&quot;, &quot;4&quot;, &quot;2&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;2&quot;, &quot;6&quot;, &quot;8&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;9&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;1&quot;, &quot;3&quot;, &quot;9&quot;, &quot;2&quot;, &quot;4&quot;, &quot;8&quot;, &quot;5&quot;, &quot;6&quot;],
+  [&quot;9&quot;, &quot;6&quot;, &quot;1&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;2&quot;, &quot;8&quot;, &quot;4&quot;],
+  [&quot;2&quot;, &quot;8&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;6&quot;, &quot;3&quot;, &quot;5&quot;],
+  [&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;2&quot;, &quot;8&quot;, &quot;6&quot;, &quot;1&quot;, &quot;7&quot;, &quot;9&quot;]
+]</code></pre>
+<p>在给定棋盘中填上所有空格后，每一行、每一列、每一宫都含有 1 至 9，原来给出的数字保持在原位。</p>
+<p><a href="https://leetcode.cn/problems/sudoku-solver/description/">题目来源：力扣 37 · 解数独</a></p>
+</details>
 <h3>解题思路</h3>
 <p>第二天做解数独，最初想每填一个数字就调用上一题的检查函数，再用回溯退回填错的位置。可刚才已检查过的八行并没有变化。于是把三组记录留在递归外面：填一个数时各加一次，试出死路时各删一次。求解器复用上面的 <code>sudoku_state</code>。</p>
 <pre><code class="language-python">def solve_sudoku(board):
@@ -124,7 +170,7 @@ def is_valid_sudoku(board):
       </div>
       <nav class="article-actions" aria-label="文章分享">
         <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=%E4%BB%8E%E6%9C%89%E6%95%88%E6%95%B0%E7%8B%AC%E5%88%B0%E8%A7%A3%E6%95%B0%E7%8B%AC%EF%BC%9A%E6%8A%8A%E6%A3%80%E6%9F%A5%E8%BF%87%E7%9A%84%E6%A0%BC%E5%AD%90%E8%AE%B0%E4%B8%8B%E6%9D%A5&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-36-37-sudoku.html">邮件分享</a>
+        <a class="button button-outline" data-share-email href="mailto:?subject=%E6%9C%89%E6%95%88%E7%9A%84%E6%95%B0%E7%8B%AC%E3%80%81%E8%A7%A3%E6%95%B0%E7%8B%AC&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-36-37-sudoku.html">邮件分享</a>
         <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
       </nav>
       <p class="sr-only" data-copy-status role="status"></p>

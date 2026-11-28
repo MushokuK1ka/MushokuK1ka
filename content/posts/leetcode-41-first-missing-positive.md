@@ -1,16 +1,36 @@
 ---
-title: "缺失的第一个正数：第二个 1 还要交换吗？"
+title: "缺失的第一个正数"
 date: "2026-10-28"
 description: "用数组位置记录已经出现的值，在常数额外空间内找到缺口。"
 ---
 
 ## 第 41 题 · 缺失的第一个正数
 
-给定未排序的整数数组 `nums`，求没有出现在数组中的最小正整数。要求用 O(n) 时间完成，额外空间为 O(1)。 [力扣原题全文](https://leetcode.cn/problems/first-missing-positive/description/)
-
-**数据范围**　数组长度为 1–10⁵，元素取值为 −2³¹ 至 2³¹ − 1，可以有负数、零和重复值。
-
-**题目样例**　`[1, 2, 0]` → `3`。`[3, 4, -1, 1]` → `2`。`[7, 8, 9, 11, 12]` → `1`。
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>输入一个未排序的整数数组 <code>nums</code>，其中可能有重复值，也可能有负数或零。请从正整数 1 开始，找出第一个没有出现在数组里的数并返回。</p>
+<p>设 <code>n</code> 是数组长度。算法须在 O(n) 时间内完成，并且只使用 O(1) 额外空间。</p>
+<p><strong>数据范围</strong>　数组长度为 1–10⁵，元素取值为 −2³¹ 至 2³¹ − 1，可以有负数、零和重复值。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [1, 2, 0]
+输出
+3</code></pre>
+<p>1 和 2 都在，缺口从 3 开始。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [3, 4, -1, 1]
+输出
+2</code></pre>
+<p>1 存在，2 缺失。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [7, 8, 9, 11, 12]
+输出
+1</code></pre>
+<p>从最小正整数 1 开始就找不到了。</p>
+<p><a href="https://leetcode.cn/problems/first-missing-positive/description/">题目来源：力扣 41 · 缺失的第一个正数</a></p>
+</details>
 
 ## 解题思路
 
