@@ -78,7 +78,7 @@ function renderPost({ slug, title, date, description, body }) {
   post = fill(post, /(<h1 class="article-title">)[\s\S]*?(<\/h1>)/, encode(title));
   post = fill(post, /(<time class="post-date" datetime=")[\s\S]*?(<\/time>)/, date + '">' + date);
   post = fill(post, /(<a class="button button-outline" data-share-email href=")[^"]*(")/, encode(mail));
-  return fill(post, bodyPattern, '\n' + body.split('\n').map(line => line ? '        ' + line : '').join('\n'));
+  return fill(post, bodyPattern, '\n' + body);
 }
 
 function updatedListing(archive, draft) {
