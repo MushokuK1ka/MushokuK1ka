@@ -1,15 +1,14 @@
 ---
-title: "搜索旋转排序数组、在排序数组中查找元素的第一个和最后一个位置、搜索插入位置"
+title: "leecode33:搜索旋转排序数组、leecode34:在排序数组中查找元素的第一个和最后一个位置、leecode35:搜索插入位置"
 date: "2026-10-26"
 description: "从同一个中点出发，分别决定该舍去半边、提前返回，还是留下插入点。"
 ---
 
 同是二分查找，三道题对“找到了”的定义不同。旋转数组里命中即可返回。在有重复值的有序数组里，命中之后还得检查边界。找插入点时，即使区间已经搜空，指针仍能给出答案。
 
-## 33 · 搜索旋转排序数组
+## leecode33:搜索旋转排序数组
 
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<div class="problem-statement">
 <p>原数组是严格递增的整数序列，没有重复元素。对于长度为 <code>n</code> 的数组，选取一个未知下标 <code>k</code>（<code>0 ≤ k &lt; n</code>），把前 <code>k</code> 个数整体移到末尾。于是原下标 <code>k…n−1</code> 的部分在前，<code>0…k−1</code> 的部分在后。<code>k = 0</code> 时顺序不变。</p>
 <p>例如 <code>[0,1,2,4,5,6,7]</code> 左移三个位置可得 <code>[4,5,6,7,0,1,2]</code>。现在只给你旋转后的数组 <code>nums</code> 和一个整数 <code>target</code>。在 O(log n) 时间内返回目标在 <code>nums</code> 里的下标（从 0 开始）。目标不存在就返回 −1。</p>
 <p><strong>数据范围</strong>　数组长度为 1–5000，元素互异，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
@@ -32,7 +31,7 @@ nums = [1], target = 0
 -1</code></pre>
 <p>唯一的元素是 1。</p>
 <p><a href="https://leetcode.cn/problems/search-in-rotated-sorted-array/description/">题目来源：力扣 33 · 搜索旋转排序数组</a></p>
-</details>
+</div>
 
 ### 解题思路
 
@@ -56,10 +55,9 @@ def search_rotated(a, target):
     return -1
 ```
 
-## 34 · 在排序数组中查找元素的第一个和最后一个位置
+## leecode34:在排序数组中查找元素的第一个和最后一个位置
 
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<div class="problem-statement">
 <p>给定非递减的整数数组 <code>nums</code> 和整数 <code>target</code>。数组中允许有重复值。请返回 <code>[起点, 终点]</code>，分别是目标第一次和最后一次出现的下标，下标从 0 开始。只出现一次时，两个下标相同。</p>
 <p>若数组为空或目标没有出现，返回 <code>[-1, -1]</code>。整个查找须在 O(log n) 时间内完成。</p>
 <p><strong>数据范围</strong>　数组长度为 0–10⁵，元素与目标均在 −10⁹ 至 10⁹ 之间。</p>
@@ -82,7 +80,7 @@ nums = [], target = 0
 [-1, -1]</code></pre>
 <p>数组为空，没有可返回的下标。</p>
 <p><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/">题目来源：力扣 34 · 在排序数组中查找元素的第一个和最后一个位置</a></p>
-</details>
+</div>
 
 ### 解题思路
 
@@ -112,10 +110,9 @@ def search_range(a, target):
 
 这是当时特意想拿去测试的写法。它在碰到边界时能提前结束，每轮会多做一次邻居判断。两趟二分的最坏时间仍是 O(log n)。
 
-## 35 · 搜索插入位置
+## leecode35:搜索插入位置
 
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<div class="problem-statement">
 <p>给定严格升序的整数数组 <code>nums</code> 和整数 <code>target</code>。若目标已经存在，返回它从 0 开始的下标。若不存在，返回把目标插入后仍能保持升序的位置。从头插入的下标是 0，追加到末尾的下标是数组长度。</p>
 <p>只需返回位置，要求用 O(log n) 时间完成。</p>
 <p><strong>数据范围</strong>　数组长度为 1–10⁴，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
@@ -138,7 +135,7 @@ nums = [1, 3, 5, 6], target = 7
 4</code></pre>
 <p>7 大于末尾元素，插入点正好等于数组长度。</p>
 <p><a href="https://leetcode.cn/problems/search-insert-position/description/">题目来源：力扣 35 · 搜索插入位置</a></p>
-</details>
+</div>
 
 ### 解题思路
 

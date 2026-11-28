@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="用 abba 的重叠反例解释词频、窗口和按余数分组。">
-  <title>串联所有单词的子串 | tsumugi.</title>
+  <title>leecode30:串联所有单词的子串 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -31,14 +31,13 @@
   <a class="back-link" href="/posts.html">← 全部文章</a>
   <header class="article-heading">
     <time class="post-date" datetime="2026-10-25">2026-10-25</time>
-    <h1 class="article-title">串联所有单词的子串</h1>
+    <h1 class="article-title">leecode30:串联所有单词的子串</h1>
   </header>
   <div class="reading-grid">
     <article class="reading-article">
       <div class="article-content">
-<h2>第 30 题 · 串联所有单词的子串</h2>
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<h2>题面与示例</h2>
+<div class="problem-statement">
 <p>给定字符串 <code>s</code> 和单词列表 <code>words</code>。所有单词长度相同。从 <code>s</code> 中找出所有满足下述条件的连续片段，返回它们的起始下标（从 0 计数），结果可以按任意顺序排列。</p>
 <p>一个片段必须能按词长切成若干块，块与块之间没有间隔也没有重叠。所有块恰好用完 <code>words</code>，顺序可以改变，同一个词在列表中出现几次就要用几次。</p>
 <p>例如，词表为 <code>[&quot;ab&quot;, &quot;cd&quot;, &quot;ef&quot;]</code> 时，六种拼法是 <code>abcdef</code>、<code>abefcd</code>、<code>cdabef</code>、<code>cdefab</code>、<code>efabcd</code>、<code>efcdab</code>。<code>acdbef</code> 虽然字符相同，但切出的 <code>ac</code> 和 <code>db</code> 不在词表中。</p>
@@ -65,7 +64,7 @@ words = [&quot;bar&quot;, &quot;foo&quot;, &quot;the&quot;]
 [6, 9, 12]</code></pre>
 <p>三个起点分别读出 foo | bar | the、bar | the | foo、the | foo | bar。合法的子串可以相互重叠。</p>
 <p><a href="https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/">题目来源：力扣 30 · 串联所有单词的子串</a></p>
-</details>
+</div>
 <h2>解题思路</h2>
 <p>10 月 25 日晚上做串联子串，起初打算用 KMP 找出每个单词在原串里的下标，再从出现次数最少的那个词向两边拼。写到这里卡住了。后来自己举了个反例：<code>abba</code> 里既有 <code>abb</code>，也有 <code>bba</code>，两个词都找到了，却连一个答案都拼不出来。它们占用了同一段字符。</p>
 <p>用最少见的词当锚点，确实能减少候选。但它可能排在答案的开头、中间或末尾。即使知道所有匹配位置，仍要处理次序、重复和重叠。试着枚举排列又走得太远了：题目允许任意顺序，判断一段是否合法，只需对照词频。</p>
@@ -103,7 +102,7 @@ def find_substrings(s, words):
       </div>
       <nav class="article-actions" aria-label="文章分享">
         <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-30-word-window.html">邮件分享</a>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leecode30%3A%E4%B8%B2%E8%81%94%E6%89%80%E6%9C%89%E5%8D%95%E8%AF%8D%E7%9A%84%E5%AD%90%E4%B8%B2&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-30-word-window.html">邮件分享</a>
         <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
       </nav>
       <p class="sr-only" data-copy-status role="status"></p>

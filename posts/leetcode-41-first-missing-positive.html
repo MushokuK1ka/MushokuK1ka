@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="用数组位置记录已经出现的值，在常数额外空间内找到缺口。">
-  <title>缺失的第一个正数 | tsumugi.</title>
+  <title>leecode41:缺失的第一个正数 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -31,14 +31,13 @@
   <a class="back-link" href="/posts.html">← 全部文章</a>
   <header class="article-heading">
     <time class="post-date" datetime="2026-10-28">2026-10-28</time>
-    <h1 class="article-title">缺失的第一个正数</h1>
+    <h1 class="article-title">leecode41:缺失的第一个正数</h1>
   </header>
   <div class="reading-grid">
     <article class="reading-article">
       <div class="article-content">
-<h2>第 41 题 · 缺失的第一个正数</h2>
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<h2>题面与示例</h2>
+<div class="problem-statement">
 <p>输入一个未排序的整数数组 <code>nums</code>，其中可能有重复值，也可能有负数或零。请从正整数 1 开始，找出第一个没有出现在数组里的数并返回。</p>
 <p>设 <code>n</code> 是数组长度。算法须在 O(n) 时间内完成，并且只使用 O(1) 额外空间。</p>
 <p><strong>数据范围</strong>　数组长度为 1–10⁵，元素取值为 −2³¹ 至 2³¹ − 1，可以有负数、零和重复值。</p>
@@ -61,7 +60,7 @@ nums = [7, 8, 9, 11, 12]
 1</code></pre>
 <p>从最小正整数 1 开始就找不到了。</p>
 <p><a href="https://leetcode.cn/problems/first-missing-positive/description/">题目来源：力扣 41 · 缺失的第一个正数</a></p>
-</details>
+</div>
 <h2>解题思路</h2>
 <p>10 月 28 日的最后一道题要求在线性时间、常数额外空间内，找出未排序数组缺少的第一个正整数。对话停在了一个问题上：<code>[1, 1, 2]</code> 的第二个 1 也想去下标 0，可那里已经有一个 1，还要交换吗？下面补齐这一问的实现。</p>
 <p>长度为 n 的数组，答案一定在 1 到 n + 1 之间。可以给 1 到 n 各安排一个位置，让数 x 去下标 x − 1。交换前先看目标位置，如果那里已经是 x，继续交换便永远没有进展。负数、零和超过 n 的数也都留在原处，等有用的数把它们换走。</p>
@@ -82,7 +81,7 @@ nums = [7, 8, 9, 11, 12]
       </div>
       <nav class="article-actions" aria-label="文章分享">
         <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-41-first-missing-positive.html">邮件分享</a>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leecode41%3A%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-41-first-missing-positive.html">邮件分享</a>
         <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
       </nav>
       <p class="sr-only" data-copy-status role="status"></p>

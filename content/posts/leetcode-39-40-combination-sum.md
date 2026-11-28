@@ -1,15 +1,14 @@
 ---
-title: "组合总和、组合总和 II"
+title: "leecode39:组合总和、leecode40:组合总和 II"
 date: "2026-10-27"
 description: "沿着把 7 拆成 3、2、2 的想法，分清重复选取、同层去重和路径拷贝。"
 ---
 
 把 7 写成 3 + 2 + 2，两个 2 可以来自同一个候选值吗？第 39 题允许，第 40 题要看数组里有没有第二个 2。这一点决定了递归下一层从哪里开始。
 
-## 39 · 组合总和
+## leecode39:组合总和
 
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<div class="problem-statement">
 <p>给定互不相同的正整数 <code>candidates</code> 和目标整数 <code>target</code>。每个候选值可以使用任意多次。请找出所有加起来恰好等于目标的组合，返回一个列表。</p>
 <p>判断组合是否相同要看每个数字分别取了几次。改变顺序不会得到新组合，只要有一个数字的使用次数不同，就算另一组。各组合的返回顺序不限，若没有解就返回空列表。</p>
 <p><strong>数据范围</strong>　候选数共 1–30 个，数值为 2–40，目标为 1–40。题目给定的输入产生的不同组合少于 150 个。</p>
@@ -32,16 +31,15 @@ candidates = [2], target = 1
 []</code></pre>
 <p>最小候选数已经比目标大。</p>
 <p><a href="https://leetcode.cn/problems/combination-sum/description/">题目来源：力扣 39 · 组合总和</a></p>
-</details>
+</div>
 
 ### 解题思路
 
 当时把题目理解成拆数：7 可以直接取 7，也可以取 6 留 1，这条路走不通。取 3 留 4，则能继续拆成 2 和 2。沿这棵树写下去就是回溯。为了让 `3 + 2 + 2` 只出现一次，把候选数从大到小排，沿每条路径只用当前下标及其右边的数。第 39 题允许复用当前数，下一层从 `i` 开始。
 
-## 40 · 组合总和 II
+## leecode40:组合总和 II
 
-<details class="problem-statement">
-<summary>题面与示例（2 组）</summary>
+<div class="problem-statement">
 <p>给定一组正整数 <code>candidates</code> 和目标整数 <code>target</code>。从数组中挑选若干个位置，使这些位置上的数字相加恰好等于目标，列出所有不同的组合。</p>
 <p>每个位置在同一组合中最多取一次。输入可以含有相同的值，如果有两个 1，就可以把这两个 1 一起选入。按数字比较结果，相同的组合只保留一份，不能靠更换位置或调换顺序重复计入。</p>
 <p><strong>数据范围</strong>　候选数共 1–100 个，数值为 1–50，目标为 1–30。</p>
@@ -58,7 +56,7 @@ candidates = [2, 5, 2, 1, 2], target = 5
 [[1, 2, 2], [5]]</code></pre>
 <p>可从三个 2 中挑两个配上 1，或者只选 5。所有挑法只对应这两种值组合。</p>
 <p><a href="https://leetcode.cn/problems/combination-sum-ii/description/">题目来源：力扣 40 · 组合总和 II</a></p>
-</details>
+</div>
 
 ### 解题思路
 

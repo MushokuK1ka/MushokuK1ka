@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="把每一段相邻相同的数字读成长度和数字，再逐项迭代。">
-  <title>外观数列 | tsumugi.</title>
+  <title>leecode38:外观数列 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -31,14 +31,13 @@
   <a class="back-link" href="/posts.html">← 全部文章</a>
   <header class="article-heading">
     <time class="post-date" datetime="2026-10-27">2026-10-27</time>
-    <h1 class="article-title">外观数列</h1>
+    <h1 class="article-title">leecode38:外观数列</h1>
   </header>
   <div class="reading-grid">
     <article class="reading-article">
       <div class="article-content">
-<h2>第 38 题 · 外观数列</h2>
-<details class="problem-statement">
-<summary>题面与示例（2 组）</summary>
+<h2>题面与示例</h2>
+<div class="problem-statement">
 <p>外观数列的每一项都是字符串。第一项是 <code>&quot;1&quot;</code>，以后每一项取上一项的行程长度编码。给定正整数 <code>n</code>，返回第 <code>n</code> 项。</p>
 <p>编码时从左向右，把连续相同的数字分成尽可能长的一段，再依次写下各段的长度和该段的数字。例如，<code>3322251</code> 分为 <code>33 | 222 | 5 | 1</code>，分别写成 <code>23 | 32 | 15 | 11</code>，拼起来就是 <code>23321511</code>。同一个数字如果隔开出现，需要分段计数。</p>
 <p>进阶要求：尝试用迭代生成各项。</p>
@@ -56,7 +55,7 @@ n = 1
 &quot;1&quot;</code></pre>
 <p>第一项由定义直接给出。</p>
 <p><a href="https://leetcode.cn/problems/count-and-say/description/">题目来源：力扣 38 · 外观数列</a></p>
-</details>
+</div>
 <h2>解题思路</h2>
 <p>这题的想法可以直接写成函数：给定上一项，把连续相同字符的长度和字符依次写入列表，再拼成下一项。<code>1211</code> 可以分为 <code>1 | 2 | 11</code>，读成“一个 1、一个 2、两个 1”，就得到 <code>111221</code>。相隔的两个 1 属于不同段，不能把整串交给词频表。</p>
 <pre><code class="language-python">def count_and_say(n):
@@ -77,7 +76,7 @@ n = 1
       </div>
       <nav class="article-actions" aria-label="文章分享">
         <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=%E5%A4%96%E8%A7%82%E6%95%B0%E5%88%97&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-38-count-and-say.html">邮件分享</a>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leecode38%3A%E5%A4%96%E8%A7%82%E6%95%B0%E5%88%97&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-38-count-and-say.html">邮件分享</a>
         <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
       </nav>
       <p class="sr-only" data-copy-status role="status"></p>

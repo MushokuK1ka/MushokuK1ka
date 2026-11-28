@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="用一个五元素数组找出刚好变大的排列，再原地翻转后缀。">
-  <title>下一个排列 | tsumugi.</title>
+  <title>leecode31:下一个排列 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -31,14 +31,13 @@
   <a class="back-link" href="/posts.html">← 全部文章</a>
   <header class="article-heading">
     <time class="post-date" datetime="2026-10-25">2026-10-25</time>
-    <h1 class="article-title">下一个排列</h1>
+    <h1 class="article-title">leecode31:下一个排列</h1>
   </header>
   <div class="reading-grid">
     <article class="reading-article">
       <div class="article-content">
-<h2>第 31 题 · 下一个排列</h2>
-<details class="problem-statement">
-<summary>题面与示例（3 组）</summary>
+<h2>题面与示例</h2>
+<div class="problem-statement">
 <p>给定整数数组 <code>nums</code>。把它的元素重新排列，每个数的出现次数保持不变。字典序从左往右比较两个排列，在第一个数值不同的位置，数值较小的一方排在前面。</p>
 <p>把所有不同排列按这个顺序排好，要求将 <code>nums</code> 改成紧接其后的排列。若当前已是最后一个，就回到第一个，即数值升序排列。直接修改原数组，只可使用 O(1) 的额外空间。</p>
 <p>例如，<code>[1,2,3]</code> 的排列依次为 <code>[1,2,3]</code>、<code>[1,3,2]</code>、<code>[2,1,3]</code>、<code>[2,3,1]</code>、<code>[3,1,2]</code>、<code>[3,2,1]</code>。因此 <code>[2,3,1]</code> 的下一项是 <code>[3,1,2]</code>。</p>
@@ -62,7 +61,7 @@ nums = [1, 1, 5]
 [1, 5, 1]</code></pre>
 <p>两个 1 的数值相同，互换它们不会产生更大的排列。</p>
 <p><a href="https://leetcode.cn/problems/next-permutation/description/">题目来源：力扣 31 · 下一个排列</a></p>
-</details>
+</div>
 <h2>解题思路</h2>
 <p>最初想到从右往左找一个可以变大的位置，交换，再把后面排序。用 <code>[2, 1, 5, 4, 3]</code> 手推才看清交换对象：能改的是 1，和相邻的 5 交换会一下跳过许多排列。右边比 1 大的数里，最小的是 3。换完得到 <code>[2, 3, 5, 4, 1]</code>，把后缀翻转，才是讨论中算出的 <code>[2, 3, 1, 4, 5]</code>。</p>
 <p>从右边找到第一个 <code>a[i] &lt; a[i+1]</code> 时，右侧已经按非递增顺序排列。从末尾遇到的第一个比 <code>a[i]</code> 大的数就是要换的数。换后后缀仍然非递增，所以原地翻转即可。若一路找不到这个位置，整个数组已经是最后一个排列，直接翻转回第一个。</p>
@@ -85,7 +84,7 @@ nums = [1, 1, 5]
       </div>
       <nav class="article-actions" aria-label="文章分享">
         <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-31-next-permutation.html">邮件分享</a>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leecode31%3A%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-31-next-permutation.html">邮件分享</a>
         <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
       </nav>
       <p class="sr-only" data-copy-status role="status"></p>

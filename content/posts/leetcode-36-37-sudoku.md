@@ -1,15 +1,14 @@
 ---
-title: "有效的数独、解数独"
+title: "leecode36:有效的数独、leecode37:解数独"
 date: "2026-10-27"
 description: "复用行、列和宫的占用记录，写出能撤销选择的数独求解器。"
 ---
 
 10 月 26 日先做了数独的规则检查。第二天遇到解数独，正好可以把前一天写的检查接到回溯里。两题使用同一张样例棋盘。
 
-## 36 · 有效的数独
+## leecode36:有效的数独
 
-<details class="problem-statement">
-<summary>题面与示例（2 组）</summary>
+<div class="problem-statement">
 <p>输入一个部分填好的 9 × 9 数独棋盘 <code>board</code>。每个格子是一个字符，<code>&quot;.&quot;</code> 表示空格，其他格子写着 1 至 9 中的某个数字。棋盘分成九个互不重叠的 3 × 3 宫。</p>
 <p>逐一检查三条规则：同一行里不能有两个相同的数字。同一列里不能有两个相同的数字。同一个宫里也不能有两个相同的数字。只检查已经填入的格子，空格不参与比较。</p>
 <p>只要三条规则都满足，就返回 <code>true</code>。出现任何冲突就返回 <code>false</code>。通过检查的局面可能无法填完，这一题不要求求解。</p>
@@ -47,7 +46,7 @@ board = [
 false</code></pre>
 <p>左上角的 5 改为 8 后，左上宫的第一行和第三行各有一个 8，已经冲突。</p>
 <p><a href="https://leetcode.cn/problems/valid-sudoku/description/">题目来源：力扣 36 · 有效的数独</a></p>
-</details>
+</div>
 
 ### 解题思路
 
@@ -78,10 +77,9 @@ def is_valid_sudoku(board):
     return sudoku_state(board) is not None
 ```
 
-## 37 · 解数独
+## leecode37:解数独
 
-<details class="problem-statement">
-<summary>题面与示例（1 组）</summary>
+<div class="problem-statement">
 <p>输入一个 9 × 9 字符矩阵 <code>board</code>。数字 <code>1</code> 至 <code>9</code> 是已经给定的格子，<code>&quot;.&quot;</code> 代表待填的空格。九个互不重叠的 3 × 3 区域称为宫。</p>
 <p>请在原棋盘上补齐所有空格，保留已给出的数字。填好后，每一行中 1 至 9 都恰好出现一次，每一列也各出现一次，九个宫中的每一个同样如此。输入保证只有一组解，下面“输出”列出的是填好的棋盘。</p>
 <p><strong>数据范围</strong>　空格用 <code>.</code> 表示，每组输入恰有一个解。</p>
@@ -112,7 +110,7 @@ board = [
 ]</code></pre>
 <p>在给定棋盘中填上所有空格后，每一行、每一列、每一宫都含有 1 至 9，原来给出的数字保持在原位。</p>
 <p><a href="https://leetcode.cn/problems/sudoku-solver/description/">题目来源：力扣 37 · 解数独</a></p>
-</details>
+</div>
 
 ### 解题思路
 
