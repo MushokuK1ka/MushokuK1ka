@@ -1,12 +1,11 @@
 ---
-title: "leecode30:串联所有单词的子串"
+title: "leetcode30:串联所有单词的子串"
 date: "2026-10-25"
 description: "用 abba 的重叠反例解释词频、窗口和按余数分组。"
 ---
 
-## 题面与示例
-
-<div class="problem-statement">
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
 <p>给定字符串 <code>s</code> 和单词列表 <code>words</code>。所有单词长度相同。从 <code>s</code> 中找出所有满足下述条件的连续片段，返回它们的起始下标（从 0 计数），结果可以按任意顺序排列。</p>
 <p>一个片段必须能按词长切成若干块，块与块之间没有间隔也没有重叠。所有块恰好用完 <code>words</code>，顺序可以改变，同一个词在列表中出现几次就要用几次。</p>
 <p>例如，词表为 <code>[&quot;ab&quot;, &quot;cd&quot;, &quot;ef&quot;]</code> 时，六种拼法是 <code>abcdef</code>、<code>abefcd</code>、<code>cdabef</code>、<code>cdefab</code>、<code>efabcd</code>、<code>efcdab</code>。<code>acdbef</code> 虽然字符相同，但切出的 <code>ac</code> 和 <code>db</code> 不在词表中。</p>
@@ -33,7 +32,7 @@ words = [&quot;bar&quot;, &quot;foo&quot;, &quot;the&quot;]
 [6, 9, 12]</code></pre>
 <p>三个起点分别读出 foo | bar | the、bar | the | foo、the | foo | bar。合法的子串可以相互重叠。</p>
 <p><a href="https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/">题目来源：力扣 30 · 串联所有单词的子串</a></p>
-</div>
+</details>
 
 ## 解题思路
 

@@ -1,12 +1,11 @@
 ---
-title: "leecode38:外观数列"
+title: "leetcode38:外观数列"
 date: "2026-10-27"
 description: "把每一段相邻相同的数字读成长度和数字，再逐项迭代。"
 ---
 
-## 题面与示例
-
-<div class="problem-statement">
+<details class="problem-statement">
+<summary>题面与示例（2 组）</summary>
 <p>外观数列的每一项都是字符串。第一项是 <code>&quot;1&quot;</code>，以后每一项取上一项的行程长度编码。给定正整数 <code>n</code>，返回第 <code>n</code> 项。</p>
 <p>编码时从左向右，把连续相同的数字分成尽可能长的一段，再依次写下各段的长度和该段的数字。例如，<code>3322251</code> 分为 <code>33 | 222 | 5 | 1</code>，分别写成 <code>23 | 32 | 15 | 11</code>，拼起来就是 <code>23321511</code>。同一个数字如果隔开出现，需要分段计数。</p>
 <p>进阶要求：尝试用迭代生成各项。</p>
@@ -24,7 +23,7 @@ n = 1
 &quot;1&quot;</code></pre>
 <p>第一项由定义直接给出。</p>
 <p><a href="https://leetcode.cn/problems/count-and-say/description/">题目来源：力扣 38 · 外观数列</a></p>
-</div>
+</details>
 
 ## 解题思路
 

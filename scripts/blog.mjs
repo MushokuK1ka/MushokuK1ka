@@ -5,6 +5,7 @@ import {
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
+import { leetcodeDirectory, postPath, postSlug, problemNumber } from './post-paths.mjs';
 import { parse as parseYaml } from 'yaml';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -71,13 +72,17 @@ function readDraft(slug) {
 
 function renderPost({ slug, title, date, description, body }) {
   const mail = 'mailto:?subject=' + encodeURIComponent(title) +
-    '&body=' + encodeURIComponent(domain + '/posts/' + slug + '.html');
+    '&body=' + encodeURIComponent(domain + postPath(slug));
   let post = read('posts/first-post.html');
   post = fill(post, /(<title>)[\s\S]*?(<\/title>)/, encode(title) + ' | tsumugi.');
   post = fill(post, /(<meta name="description" content=")[^"]*(">)/, encode(description));
   post = fill(post, /(<h1 class="article-title">)[\s\S]*?(<\/h1>)/, encode(title));
   post = fill(post, /(<time class="post-date" datetime=")[\s\S]*?(<\/time>)/, date + '">' + date);
   post = fill(post, /(<a class="button button-outline" data-share-email href=")[^"]*(")/, encode(mail));
+  if (problemNumber(slug)) {
+    post = post.replace('<a class="back-link" href="/posts.html">← 全部文章</a>',
+      '<a class="back-link" href="' + leetcodeDirectory + '">← 力扣题解</a>');
+  }
   return fill(post, bodyPattern, '\n' + body);
 }
 
@@ -85,14 +90,14 @@ function updatedListing(archive, draft) {
   const existing = archive.match(listPattern)?.[0];
   if (!existing) throw new Error('找不到文章归档。');
 
-  const rows = [...existing.matchAll(/<li class="post-row">[\s\S]*?<\/li>/g)];
+  const rows = [...existing.matchAll(/<li class="post-row"(?: hidden)?>[\s\S]*?<\/li>/g)];
   if (rows.length !== (existing.match(/<li\b/g) ?? []).length) {
     throw new Error('归档结构有变化，请先核对文章列表。');
   }
   const entries = rows.map(([row]) => {
-    const post = row.match(/<a href="\/posts\/([a-z0-9-]+)\.html"><time datetime="([^"]+)">[^<]*<\/time><span class="post-row-title">([^<]*)<\/span>/);
-    if (!post || !datePattern.test(post[2])) throw new Error('归档里有一条无法读取的文章记录。');
-    return { slug: post[1], date: post[2], title: post[3] };
+    const post = row.match(/<a href="(\/posts\/[^"]+\.html)"><time datetime="([^"]+)">[^<]*<\/time><span class="post-row-title">([^<]*)<\/span>/);
+    if (!post || !postSlug(post[1]) || !datePattern.test(post[2])) throw new Error('归档里有一条无法读取的文章记录。');
+    return { slug: postSlug(post[1]), date: post[2], title: post[3] };
   });
 
   const { slug, title, date } = draft;
@@ -105,9 +110,10 @@ function updatedListing(archive, draft) {
   });
 }
 
-function renderList(page, entries) {
+function renderList(page, entries, hideProblems = false) {
   const rows = entries.map(({ slug, date, title }) =>
-    '    <li class="post-row"><a href="/posts/' + slug + '.html"><time datetime="' + date + '">' +
+    '    <li class="post-row"' + (hideProblems && problemNumber(slug) ? ' hidden' : '') +
+    '><a href="' + postPath(slug) + '"><time datetime="' + date + '">' +
     date + '</time><span class="post-row-title">' + title +
     '</span><span class="post-row-arrow" aria-hidden="true">↗</span></a></li>');
   return fill(page, listPattern, '\n' + rows.join('\n'));
@@ -115,7 +121,7 @@ function renderList(page, entries) {
 
 function renderFeed(feed, entries) {
   const items = entries.slice(0, 30).map(({ slug, title, date }) => {
-    const link = domain + '/posts/' + slug + '.html';
+    const link = domain + postPath(slug);
     const timestamp = new Date(date + 'T00:00:00Z').toUTCString();
     return '    <item><title>' + title + '</title><link>' + link + '</link><guid>' + link +
       '</guid><pubDate>' + timestamp + '</pubDate></item>';
@@ -146,7 +152,7 @@ function readTemplate(path, region, publishing) {
 
 function build(draft, publishing) {
   const { slug, source, images } = draft;
-  const post = 'posts/' + slug + '.html';
+  const post = postPath(slug).slice(1);
   const homepage = readTemplate('index.html', listPattern, publishing);
   const archive = readTemplate('posts.html', listPattern, publishing);
   const feed = readTemplate('feed.xml', feedPattern, publishing);
@@ -154,9 +160,16 @@ function build(draft, publishing) {
   const files = new Map([
     [post, renderPost(draft)],
     ['index.html', renderList(homepage, entries.slice(0, 5))],
-    ['posts.html', renderList(archive, entries)],
+    ['posts.html', renderList(archive, entries, true)],
     ['feed.xml', renderFeed(feed, entries)],
   ]);
+  if (problemNumber(slug)) {
+    const directory = leetcodeDirectory.slice(1) + 'index.html';
+    const template = readTemplate(directory, listPattern, publishing);
+    const problems = entries.filter(entry => problemNumber(entry.slug))
+      .sort((a, b) => Number(problemNumber(a.slug)) - Number(problemNumber(b.slug)));
+    files.set(directory, renderList(template, problems));
+  }
   for (const [path, contents] of files) writeFileSync(join(root, path), contents);
   return [source, ...files.keys(), ...images];
 }
@@ -187,7 +200,7 @@ function publish(draft, files, sqlFile) {
     run(process.execPath, [wrangler, 'deploy'], snapshot);
     run(process.execPath, [wrangler, 'd1', 'migrations', 'apply', 'DB', '--remote'], snapshot);
     run(process.execPath, [wrangler, 'd1', 'execute', 'DB', '--remote', '--yes', '--file', sqlFile], snapshot);
-    console.log('已发布 ' + domain + '/posts/' + draft.slug + '.html');
+    console.log('已发布 ' + domain + postPath(draft.slug));
   } finally {
     if (resolve(release).startsWith(resolve(work, 'blog-release-'))) rmSync(release, { recursive: true });
   }
@@ -220,9 +233,9 @@ function main() {
     } else if (command === 'preview') {
       run(process.execPath, [wrangler, 'd1', 'migrations', 'apply', 'DB', '--local']);
       run(process.execPath, [wrangler, 'd1', 'execute', 'DB', '--local', '--file', sqlFile]);
-      console.log('预览地址见启动日志，文章路径为 /posts/' + slug + '.html');
+      console.log('预览地址见启动日志，文章路径为 ' + postPath(slug));
     } else {
-      console.log('已生成 posts/' + slug + '.html、文章列表、RSS 和 ' + sqlFile);
+      console.log('已生成 ' + postPath(slug) + '、文章列表、RSS 和 ' + sqlFile);
     }
   } finally {
     rmSync(lock, { force: true });

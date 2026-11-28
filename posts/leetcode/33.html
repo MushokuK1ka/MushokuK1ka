@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="利用旋转数组中有序的那一半，决定下一步保留哪个区间。">
+  <title>leetcode33:搜索旋转排序数组 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+</head>
+<body class="article-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html" aria-current="page">文章</a>
+    <a href="/resources.html">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+<main id="main" class="wrap post-page">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="article-heading">
+    <time class="post-date" datetime="2026-10-26">2026-10-26</time>
+    <h1 class="article-title">leetcode33:搜索旋转排序数组</h1>
+  </header>
+  <div class="reading-grid">
+    <article class="reading-article">
+      <div class="article-content">
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>原数组是严格递增的整数序列，没有重复元素。对于长度为 <code>n</code> 的数组，选取一个未知下标 <code>k</code>（<code>0 ≤ k &lt; n</code>），把前 <code>k</code> 个数整体移到末尾。于是原下标 <code>k…n−1</code> 的部分在前，<code>0…k−1</code> 的部分在后。<code>k = 0</code> 时顺序不变。</p>
+<p>例如 <code>[0,1,2,4,5,6,7]</code> 左移三个位置可得 <code>[4,5,6,7,0,1,2]</code>。现在只给你旋转后的数组 <code>nums</code> 和一个整数 <code>target</code>。在 O(log n) 时间内返回目标在 <code>nums</code> 里的下标（从 0 开始）。目标不存在就返回 −1。</p>
+<p><strong>数据范围</strong>　数组长度为 1–5000，元素互异，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [4, 5, 6, 7, 0, 1, 2], target = 0
+输出
+4</code></pre>
+<p>旋转之后，0 在从零开始计数的下标 4。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [4, 5, 6, 7, 0, 1, 2], target = 3
+输出
+-1</code></pre>
+<p>数组中没有 3。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [1], target = 0
+输出
+-1</code></pre>
+<p>唯一的元素是 1。</p>
+<p><a href="https://leetcode.cn/problems/search-in-rotated-sorted-array/description/">题目来源：力扣 33 · 搜索旋转排序数组</a></p>
+</details>
+<h2>解题思路</h2>
+<p>在 <code>[4, 5, 6, 7, 0, 1, 2]</code> 里找 0，中点是 7。单凭“0 小于 7”向左走，就会把目标丢掉。题目保证元素互异，因此以中点为界，至少有一半有序。先认出有序的那半边，再用它的两个端点判断目标是否在里面。</p>
+<pre><code class="language-python">def search_rotated(a, target):
+    lo, hi = 0, len(a) - 1
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        if a[mid] == target:
+            return mid
+        if a[lo] &lt;= a[mid]:
+            take_left = a[lo] &lt;= target &lt; a[mid]
+        else:
+            take_left = not (a[mid] &lt; target &lt;= a[hi])
+        if take_left:
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    return -1
+</code></pre>
+      </div>
+      <nav class="article-actions" aria-label="文章分享">
+        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leetcode33%3A%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode%2F33.html">邮件分享</a>
+        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
+      </nav>
+      <p class="sr-only" data-copy-status role="status"></p>
+    </article>
+    <aside class="reading-sidebar" data-article-toc hidden>
+      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

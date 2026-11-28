@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="把每一段相邻相同的数字读成长度和数字，再逐项迭代。">
+  <title>leetcode38:外观数列 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+</head>
+<body class="article-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html" aria-current="page">文章</a>
+    <a href="/resources.html">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+<main id="main" class="wrap post-page">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="article-heading">
+    <time class="post-date" datetime="2026-10-27">2026-10-27</time>
+    <h1 class="article-title">leetcode38:外观数列</h1>
+  </header>
+  <div class="reading-grid">
+    <article class="reading-article">
+      <div class="article-content">
+<details class="problem-statement">
+<summary>题面与示例（2 组）</summary>
+<p>外观数列的每一项都是字符串。第一项是 <code>&quot;1&quot;</code>，以后每一项取上一项的行程长度编码。给定正整数 <code>n</code>，返回第 <code>n</code> 项。</p>
+<p>编码时从左向右，把连续相同的数字分成尽可能长的一段，再依次写下各段的长度和该段的数字。例如，<code>3322251</code> 分为 <code>33 | 222 | 5 | 1</code>，分别写成 <code>23 | 32 | 15 | 11</code>，拼起来就是 <code>23321511</code>。同一个数字如果隔开出现，需要分段计数。</p>
+<p>进阶要求：尝试用迭代生成各项。</p>
+<p><strong>数据范围</strong>　<code>1 ≤ n ≤ 30</code>。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+n = 4
+输出
+&quot;1211&quot;</code></pre>
+<p>依次得到 &quot;1&quot;、&quot;11&quot;、&quot;21&quot;、&quot;1211&quot;。第三项 &quot;21&quot; 有一个 2，接着有一个 1。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+n = 1
+输出
+&quot;1&quot;</code></pre>
+<p>第一项由定义直接给出。</p>
+<p><a href="https://leetcode.cn/problems/count-and-say/description/">题目来源：力扣 38 · 外观数列</a></p>
+</details>
+<h2>解题思路</h2>
+<p>这题的想法可以直接写成函数：给定上一项，把连续相同字符的长度和字符依次写入列表，再拼成下一项。<code>1211</code> 可以分为 <code>1 | 2 | 11</code>，读成“一个 1、一个 2、两个 1”，就得到 <code>111221</code>。相隔的两个 1 属于不同段，不能把整串交给词频表。</p>
+<pre><code class="language-python">def count_and_say(n):
+    term = '1'
+    for _ in range(1, n):
+        parts = []
+        start = 0
+        while start &lt; len(term):
+            end = start + 1
+            while end &lt; len(term) and term[end] == term[start]:
+                end += 1
+            parts.extend([str(end - start), term[start]])
+            start = end
+        term = ''.join(parts)
+    return term
+</code></pre>
+<p>例如算到第 4 项时，依次得到 <code>1 → 11 → 21 → 1211</code>。每一步只读上一项一次，用列表收集片段，最后一次拼接。总耗时取决于这 n 项的字符总数。</p>
+      </div>
+      <nav class="article-actions" aria-label="文章分享">
+        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leetcode38%3A%E5%A4%96%E8%A7%82%E6%95%B0%E5%88%97&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode%2F38.html">邮件分享</a>
+        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
+      </nav>
+      <p class="sr-only" data-copy-status role="status"></p>
+    </article>
+    <aside class="reading-sidebar" data-article-toc hidden>
+      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

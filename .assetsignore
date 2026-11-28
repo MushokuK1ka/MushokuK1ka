@@ -2,6 +2,10 @@
 *
 !/index.html
 !/posts.html
+!/posts/
+!/posts/leetcode-*.html
+!/posts/leetcode/
+!/posts/leetcode/index.html
 !/projects.html
 !/projects.js
 !/resources.html

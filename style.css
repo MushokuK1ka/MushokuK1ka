@@ -347,6 +347,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border-radius: 10px;
   padding: 0 1em;
 }
+.problem-statement > summary { padding: .7em 0; cursor: pointer; font-weight: 650; }
+.problem-statement[open] > summary { border-bottom: 1px solid var(--line); }
+.archive .category-nav { margin: 0 0 1.25rem; }
 .article-content pre {
   overflow: auto;
   border-radius: 10px;

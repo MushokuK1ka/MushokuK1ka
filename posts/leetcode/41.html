@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="用数组位置记录已经出现的值，在常数额外空间内找到缺口。">
+  <title>leetcode41:缺失的第一个正数 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+</head>
+<body class="article-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html" aria-current="page">文章</a>
+    <a href="/resources.html">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+<main id="main" class="wrap post-page">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="article-heading">
+    <time class="post-date" datetime="2026-10-28">2026-10-28</time>
+    <h1 class="article-title">leetcode41:缺失的第一个正数</h1>
+  </header>
+  <div class="reading-grid">
+    <article class="reading-article">
+      <div class="article-content">
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>输入一个未排序的整数数组 <code>nums</code>，其中可能有重复值，也可能有负数或零。请从正整数 1 开始，找出第一个没有出现在数组里的数并返回。</p>
+<p>设 <code>n</code> 是数组长度。算法须在 O(n) 时间内完成，并且只使用 O(1) 额外空间。</p>
+<p><strong>数据范围</strong>　数组长度为 1–10⁵，元素取值为 −2³¹ 至 2³¹ − 1，可以有负数、零和重复值。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+nums = [1, 2, 0]
+输出
+3</code></pre>
+<p>1 和 2 都在，缺口从 3 开始。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+nums = [3, 4, -1, 1]
+输出
+2</code></pre>
+<p>1 存在，2 缺失。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+nums = [7, 8, 9, 11, 12]
+输出
+1</code></pre>
+<p>从最小正整数 1 开始就找不到了。</p>
+<p><a href="https://leetcode.cn/problems/first-missing-positive/description/">题目来源：力扣 41 · 缺失的第一个正数</a></p>
+</details>
+<h2>解题思路</h2>
+<p>10 月 28 日的最后一道题要求在线性时间、常数额外空间内，找出未排序数组缺少的第一个正整数。对话停在了一个问题上：<code>[1, 1, 2]</code> 的第二个 1 也想去下标 0，可那里已经有一个 1，还要交换吗？下面补齐这一问的实现。</p>
+<p>长度为 n 的数组，答案一定在 1 到 n + 1 之间。可以给 1 到 n 各安排一个位置，让数 x 去下标 x − 1。交换前先看目标位置，如果那里已经是 x，继续交换便永远没有进展。负数、零和超过 n 的数也都留在原处，等有用的数把它们换走。</p>
+<pre><code class="language-python">def first_missing_positive(a):
+    n = len(a)
+    for i in range(n):
+        while 1 &lt;= a[i] &lt;= n:
+            target = a[i] - 1
+            if a[target] == a[i]:
+                break
+            a[target], a[i] = a[i], a[target]
+    for i, value in enumerate(a):
+        if value != i + 1:
+            return i + 1
+    return n + 1
+</code></pre>
+<p>例如 <code>[3, 4, -1, 1]</code> 依次变成 <code>[-1, 4, 3, 1]</code>、<code>[-1, 1, 3, 4]</code>、<code>[1, -1, 3, 4]</code>。第二个位置等不到 2，答案就是 2。虽然循环里套着循环，每一次真正发生的交换都会让一个数归位，已经归位的数也不会再被移走。整个数组最多做 n 次有效交换。</p>
+      </div>
+      <nav class="article-actions" aria-label="文章分享">
+        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leetcode41%3A%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode%2F41.html">邮件分享</a>
+        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
+      </nav>
+      <p class="sr-only" data-copy-status role="status"></p>
+    </article>
+    <aside class="reading-sidebar" data-article-toc hidden>
+      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

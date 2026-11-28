@@ -1,0 +1,94 @@
+---
+title: "leetcode37:解数独"
+date: "2026-10-27"
+description: "把数字放进空格，遇到死路就撤销选择，直到填好整张棋盘。"
+---
+
+<details class="problem-statement">
+<summary>题面与示例（1 组）</summary>
+<p>输入一个 9 × 9 字符矩阵 <code>board</code>。数字 <code>1</code> 至 <code>9</code> 是已经给定的格子，<code>&quot;.&quot;</code> 代表待填的空格。九个互不重叠的 3 × 3 区域称为宫。</p>
+<p>请在原棋盘上补齐所有空格，保留已给出的数字。填好后，每一行中 1 至 9 都恰好出现一次，每一列也各出现一次，九个宫中的每一个同样如此。输入保证只有一组解，下面“输出”列出的是填好的棋盘。</p>
+<p><strong>数据范围</strong>　空格用 <code>.</code> 表示，每组输入恰有一个解。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+board = [
+  [&quot;5&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;9&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;],
+  [&quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;3&quot;, &quot;.&quot;, &quot;.&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;6&quot;],
+  [&quot;.&quot;, &quot;6&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;2&quot;, &quot;8&quot;, &quot;.&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;.&quot;, &quot;.&quot;, &quot;5&quot;],
+  [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;8&quot;, &quot;.&quot;, &quot;.&quot;, &quot;7&quot;, &quot;9&quot;]
+]
+输出
+[
+  [&quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;1&quot;, &quot;2&quot;],
+  [&quot;6&quot;, &quot;7&quot;, &quot;2&quot;, &quot;1&quot;, &quot;9&quot;, &quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;8&quot;],
+  [&quot;1&quot;, &quot;9&quot;, &quot;8&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;],
+  [&quot;8&quot;, &quot;5&quot;, &quot;9&quot;, &quot;7&quot;, &quot;6&quot;, &quot;1&quot;, &quot;4&quot;, &quot;2&quot;, &quot;3&quot;],
+  [&quot;4&quot;, &quot;2&quot;, &quot;6&quot;, &quot;8&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;9&quot;, &quot;1&quot;],
+  [&quot;7&quot;, &quot;1&quot;, &quot;3&quot;, &quot;9&quot;, &quot;2&quot;, &quot;4&quot;, &quot;8&quot;, &quot;5&quot;, &quot;6&quot;],
+  [&quot;9&quot;, &quot;6&quot;, &quot;1&quot;, &quot;5&quot;, &quot;3&quot;, &quot;7&quot;, &quot;2&quot;, &quot;8&quot;, &quot;4&quot;],
+  [&quot;2&quot;, &quot;8&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;9&quot;, &quot;6&quot;, &quot;3&quot;, &quot;5&quot;],
+  [&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;2&quot;, &quot;8&quot;, &quot;6&quot;, &quot;1&quot;, &quot;7&quot;, &quot;9&quot;]
+]</code></pre>
+<p>在给定棋盘中填上所有空格后，每一行、每一列、每一宫都含有 1 至 9，原来给出的数字保持在原位。</p>
+<p><a href="https://leetcode.cn/problems/sudoku-solver/description/">题目来源：力扣 37 · 解数独</a></p>
+</details>
+
+## 解题思路
+
+做解数独时，最初想每填一个数字就重新检查整张棋盘，再用回溯退回填错的位置。可刚才已检查过的八行并没有变化。于是把三组记录留在递归外面：填一个数时各加一次，试出死路时各删一次。函数 `sudoku_state` 先扫描棋盘，记下已有数字和空格的位置。
+
+```python
+def sudoku_state(board):
+    rows = [set() for _ in range(9)]
+    cols = [set() for _ in range(9)]
+    boxes = [set() for _ in range(9)]
+    empty = []
+    for r, row in enumerate(board):
+        for c, digit in enumerate(row):
+            box = (r // 3) * 3 + c // 3
+            if digit == '.':
+                empty.append((r, c, box))
+            elif digit in rows[r] or digit in cols[c] or digit in boxes[box]:
+                return None
+            else:
+                rows[r].add(digit)
+                cols[c].add(digit)
+                boxes[box].add(digit)
+    return rows, cols, boxes, empty
+
+def solve_sudoku(board):
+    state = sudoku_state(board)
+    if state is None:
+        return False
+    rows, cols, boxes, empty = state
+
+    def fill(index):
+        if index == len(empty):
+            return True
+        r, c, box = empty[index]
+        for d in '123456789':
+            if d in rows[r] or d in cols[c] or d in boxes[box]:
+                continue
+            board[r][c] = d
+            rows[r].add(d)
+            cols[c].add(d)
+            boxes[box].add(d)
+            if fill(index + 1):
+                return True
+            board[r][c] = '.'
+            rows[r].remove(d)
+            cols[c].remove(d)
+            boxes[box].remove(d)
+        return False
+
+    return fill(0)
+```
+
+对照官方代码时，最让我在意的是它撤销了占用标记，却没把格子擦回 `'.'`。它提前记录了所有空格，尝试下一种数字时会直接覆盖旧值。判断能填什么也只读占用表，所以这两件事可以分开。上面的版本选择让棋盘和占用表始终一致，找到解就逐层返回。[力扣官方《解数独》题解](https://leetcode.cn/problems/sudoku-solver/solutions/414120/jie-shu-du-by-leetcode-solution/)
+
+对话里还对比了两次提交显示的 1337 ms 和 29 ms。仅凭这两个数，没法把差距归到某一行代码。能从实现里辨认出两种不同的节省：用九个二进制位表示九个数字，能一次算出某格的全部候选。优先试候选最少的空格，则可能少走整棵子树。一个格子只剩 1 个候选，另一个还有 5 个，先填前者就没有五选一的分叉。

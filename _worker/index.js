@@ -1,20 +1,26 @@
 import postTemplate from '../posts/first-post.html';
 import { profileRoom } from './profile-room.js';
+import { leetcodeDirectory, postPath, postSlug, problemNumber } from '../scripts/post-paths.mjs';
 
-const postPath = /^\/posts\/([a-z0-9-]+)\.html$/;
 const postColumns = 'SELECT slug, title, published_on FROM posts';
 const postOrder = ' ORDER BY published_on DESC, slug DESC';
+const isProblemSql = "(slug GLOB 'leetcode-[1-9]*' AND substr(slug,10) NOT GLOB '*[^0-9]*')";
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const isHome = url.pathname === '/' || url.pathname === '/index.html';
     const isArchive = url.pathname === '/posts.html';
+    if (url.pathname === leetcodeDirectory.slice(0, -1)) {
+      url.pathname = leetcodeDirectory;
+      return Response.redirect(url.href, 301);
+    }
+    const isDirectory = url.pathname === leetcodeDirectory || url.pathname === leetcodeDirectory + 'index.html';
     const isFeed = url.pathname === '/feed.xml';
     const isProfileRoom = url.pathname === '/profile/room.svg';
-    const post = url.pathname.match(postPath);
+    const slug = postSlug(url.pathname);
 
-    if (!isHome && !isArchive && !isFeed && !isProfileRoom && !post) return env.ASSETS.fetch(request);
+    if (!isHome && !isArchive && !isDirectory && !isFeed && !isProfileRoom && !slug) return env.ASSETS.fetch(request);
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', {
         status: 405,
@@ -23,10 +29,14 @@ export default {
     }
 
     if (isProfileRoom) return profileRoom(request, env.ASSETS);
+    if (slug && url.pathname !== postPath(slug)) {
+      url.pathname = postPath(slug);
+      return Response.redirect(url.href, 301);
+    }
     let response;
     if (isFeed) response = await renderFeed(env.DB, url.origin);
-    else if (post) response = await renderPost(env.DB, post[1], url);
-    else response = await renderList(env, url, isHome);
+    else if (slug) response = await renderPost(env.DB, slug, url);
+    else response = await renderList(env, url, isHome, isDirectory);
 
     if (request.method === 'HEAD') {
       await response.body?.cancel();
@@ -36,17 +46,17 @@ export default {
   },
 };
 
-async function renderList(env, url, isHome) {
-  const templatePath = isHome ? '/index.html' : '/posts.html';
+async function renderList(env, url, isHome, isDirectory) {
+  const templatePath = isDirectory ? leetcodeDirectory + 'index.html' : isHome ? '/index.html' : '/posts.html';
   const query = isHome ? '' : (url.searchParams.get('q') ?? '').trim().slice(0, 120);
-  let statement;
-  if (query) {
-    statement = env.DB.prepare(postColumns +
-      ' WHERE instr(lower(title), lower(?)) > 0 OR instr(lower(body_html), lower(?)) > 0' + postOrder
-    ).bind(query, query);
-  } else {
-    statement = env.DB.prepare(postColumns + postOrder + (isHome ? ' LIMIT 5' : ''));
-  }
+  const filters = [];
+  if (isDirectory) filters.push(isProblemSql);
+  else if (!isHome && !query) filters.push('NOT ' + isProblemSql);
+  if (query) filters.push('(instr(lower(title), lower(?)) > 0 OR instr(lower(body_html), lower(?)) > 0)');
+  const where = filters.length ? ' WHERE ' + filters.join(' AND ') : '';
+  const order = isDirectory ? ' ORDER BY CAST(substr(slug,10) AS INTEGER)' : postOrder;
+  let statement = env.DB.prepare(postColumns + where + order + (isHome ? ' LIMIT 5' : ''));
+  if (query) statement = statement.bind(query, query);
 
   const [template, { results }] = await Promise.all([
     env.ASSETS.fetch(new Request(new URL(templatePath, url))),
@@ -55,7 +65,7 @@ async function renderList(env, url, isHome) {
   if (!template.ok) return template;
 
   const items = results.map(({ slug, title, published_on }) =>
-    '<li class="post-row"><a href="/posts/' + encodeURIComponent(slug) + '.html">' +
+    '<li class="post-row"><a href="' + escapeHtml(postPath(slug)) + '">' +
     '<time datetime="' + escapeHtml(published_on) + '">' + escapeHtml(published_on) + '</time>' +
     '<span class="post-row-title">' + escapeHtml(title) + '</span>' +
     '<span class="post-row-arrow" aria-hidden="true">↗</span></a></li>'
@@ -95,7 +105,7 @@ async function renderPost(db, slug, url) {
   const articleUrl = new URL(url.pathname, url.origin).href;
   const email = 'mailto:?subject=' + encodeURIComponent(heading) + '&body=' + encodeURIComponent(articleUrl);
 
-  return new HTMLRewriter()
+  const page = new HTMLRewriter()
     .on('title', { element: (element) => element.setInnerContent(title + ' | tsumugi.') })
     .on('.article-title', { element: (element) => element.setInnerContent(heading) })
     .on('.post-date', {
@@ -110,14 +120,20 @@ async function renderPost(db, slug, url) {
         element.setInnerContent(post.body_html, { html: true });
       },
     })
-    .on('[data-share-email]', { element: (element) => element.setAttribute('href', email) })
-    .transform(htmlResponse(postTemplate));
+    .on('[data-share-email]', { element: (element) => element.setAttribute('href', email) });
+  if (problemNumber(slug)) page.on('.back-link', {
+    element(element) {
+      element.setAttribute('href', leetcodeDirectory);
+      element.setInnerContent('← 力扣题解');
+    },
+  });
+  return page.transform(htmlResponse(postTemplate));
 }
 
 async function renderFeed(db, origin) {
   const { results } = await db.prepare(postColumns + postOrder + ' LIMIT 30').all();
   const items = results.map(({ slug, title, published_on }) => {
-    const link = escapeHtml(origin + '/posts/' + encodeURIComponent(slug) + '.html');
+    const link = escapeHtml(origin + postPath(slug));
     return '    <item><title>' + escapeHtml(title) + '</title><link>' + link + '</link><guid>' + link +
       '</guid><pubDate>' + new Date(published_on).toUTCString() + '</pubDate></item>';
   }).join('\n');

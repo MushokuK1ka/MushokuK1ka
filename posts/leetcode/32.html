@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="用 ()(() 解释失配的位置怎样决定连续括号的长度。">
+  <title>leetcode32:最长有效括号 | tsumugi.</title>
+  <link rel="stylesheet" href="/style.css?v=20261119-themes">
+  <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <script src="/script.js?v=20261119" defer></script>
+</head>
+<body class="article-page" id="top">
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
+  <nav class="site-nav" aria-label="主导航">
+    <a href="/">首页</a>
+    <a href="/posts.html" aria-current="page">文章</a>
+    <a href="/resources.html">资源</a>
+    <a href="/about.html">关于</a>
+  </nav>
+  <div class="header-actions">
+    <a class="search-link" href="/posts.html#search"><span class="search-icon" aria-hidden="true"></span><span>搜索</span></a>
+    <div data-theme-slot></div>
+  </div>
+</div></header>
+
+<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
+<main id="main" class="wrap post-page">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="article-heading">
+    <time class="post-date" datetime="2026-10-26">2026-10-26</time>
+    <h1 class="article-title">leetcode32:最长有效括号</h1>
+  </header>
+  <div class="reading-grid">
+    <article class="reading-article">
+      <div class="article-content">
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
+<p>给定只含 <code>(</code> 和 <code>)</code> 的字符串 <code>s</code>，从中截取一段连续的字符，使其中的括号能完整配对。每个右括号要与前面尚未配对的一个左括号配对，结束时也不能剩下左括号。像 <code>(()())</code> 这样的嵌套是合法的。</p>
+<p>返回能取到的最长长度，单位是字符。若没有非空的有效片段，返回 0。</p>
+<p><strong>数据范围</strong>　字符串长度为 0–30000。</p>
+<p><strong>示例 1</strong></p>
+<pre><code>输入
+s = &quot;(()&quot;
+输出
+2</code></pre>
+<p>末尾两位组成 ()，开头的左括号没有配对。</p>
+<p><strong>示例 2</strong></p>
+<pre><code>输入
+s = &quot;)()())&quot;
+输出
+4</code></pre>
+<p>中间四个字符 ()() 连在一起，首尾的右括号都不能并入。</p>
+<p><strong>示例 3</strong></p>
+<pre><code>输入
+s = &quot;&quot;
+输出
+0</code></pre>
+<p>空串的最长有效长度是 0。</p>
+<p><a href="https://leetcode.cn/problems/longest-valid-parentheses/description/">题目来源：力扣 32 · 最长有效括号</a></p>
+</details>
+<h2>解题思路</h2>
+<p>当时问的是 <code>&quot;()(()&quot;</code>：读到尾部才知道少一个右括号，前面的长度该怎么算？实际上下标 0–1 和 3–4 各有一段 <code>&quot;()&quot;</code>，中间下标 2 的左括号把它们隔开了。最长是 2。只数左右括号各有几个，会丢掉这条分界线。</p>
+<p>栈里保存尚未配对的左括号下标，底部放最近一次失配的右括号下标，初始为 −1。匹配成功后，新的栈顶正好是当前合法后缀之前的位置。上例读到最后一个右括号时，弹出 3，露出 2，长度就是 4 − 2。</p>
+<pre><code class="language-python">def longest_valid(s):
+    stack = [-1]
+    best = 0
+    for i, ch in enumerate(s):
+        if ch == '(':
+            stack.append(i)
+        else:
+            stack.pop()
+            if stack:
+                best = max(best, i - stack[-1])
+            else:
+                stack.append(i)
+    return best
+</code></pre>
+<p>每个下标最多入栈和出栈各一次，时间为 O(n)。全是左括号时栈最长，额外空间为 O(n)。</p>
+      </div>
+      <nav class="article-actions" aria-label="文章分享">
+        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
+        <a class="button button-outline" data-share-email href="mailto:?subject=leetcode32%3A%E6%9C%80%E9%95%BF%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode%2F32.html">邮件分享</a>
+        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
+      </nav>
+      <p class="sr-only" data-copy-status role="status"></p>
+    </article>
+    <aside class="reading-sidebar" data-article-toc hidden>
+      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+  <span>© 2026 tsumugi</span>
+  <nav aria-label="页脚"><a href="/feed.xml">RSS</a><a href="https://github.com/MushokuK1ka/MushokuK1ka">GitHub ↗</a></nav>
+</div></footer>
+</body>
+</html>

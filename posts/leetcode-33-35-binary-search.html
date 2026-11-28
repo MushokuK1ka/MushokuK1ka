@@ -2,15 +2,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="从同一个中点出发，分别决定该舍去半边、提前返回，还是留下插入点。">
-  <title>leecode33:搜索旋转排序数组、leecode34:在排序数组中查找元素的第一个和最后一个位置、leecode35:搜索插入位置 | tsumugi.</title>
+  <meta name="description" content="力扣题解。">
+  <title>力扣题解 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
   <script src="/script.js?v=20261119" defer></script>
 </head>
-<body class="article-page" id="top">
+<body class="archive-page" id="top">
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="site-header"><div class="wrap header-inner">
   <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
@@ -26,157 +27,14 @@
   </div>
 </div></header>
 
-<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
-<main id="main" class="wrap post-page">
-  <a class="back-link" href="/posts.html">← 全部文章</a>
-  <header class="article-heading">
-    <time class="post-date" datetime="2026-10-26">2026-10-26</time>
-    <h1 class="article-title">leecode33:搜索旋转排序数组、leecode34:在排序数组中查找元素的第一个和最后一个位置、leecode35:搜索插入位置</h1>
-  </header>
-  <div class="reading-grid">
-    <article class="reading-article">
-      <div class="article-content">
-<p>同是二分查找，三道题对“找到了”的定义不同。旋转数组里命中即可返回。在有重复值的有序数组里，命中之后还得检查边界。找插入点时，即使区间已经搜空，指针仍能给出答案。</p>
-<h2>leecode33:搜索旋转排序数组</h2>
-<div class="problem-statement">
-<p>原数组是严格递增的整数序列，没有重复元素。对于长度为 <code>n</code> 的数组，选取一个未知下标 <code>k</code>（<code>0 ≤ k &lt; n</code>），把前 <code>k</code> 个数整体移到末尾。于是原下标 <code>k…n−1</code> 的部分在前，<code>0…k−1</code> 的部分在后。<code>k = 0</code> 时顺序不变。</p>
-<p>例如 <code>[0,1,2,4,5,6,7]</code> 左移三个位置可得 <code>[4,5,6,7,0,1,2]</code>。现在只给你旋转后的数组 <code>nums</code> 和一个整数 <code>target</code>。在 O(log n) 时间内返回目标在 <code>nums</code> 里的下标（从 0 开始）。目标不存在就返回 −1。</p>
-<p><strong>数据范围</strong>　数组长度为 1–5000，元素互异，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
-<p><strong>示例 1</strong></p>
-<pre><code>输入
-nums = [4, 5, 6, 7, 0, 1, 2], target = 0
-输出
-4</code></pre>
-<p>旋转之后，0 在从零开始计数的下标 4。</p>
-<p><strong>示例 2</strong></p>
-<pre><code>输入
-nums = [4, 5, 6, 7, 0, 1, 2], target = 3
-输出
--1</code></pre>
-<p>数组中没有 3。</p>
-<p><strong>示例 3</strong></p>
-<pre><code>输入
-nums = [1], target = 0
-输出
--1</code></pre>
-<p>唯一的元素是 1。</p>
-<p><a href="https://leetcode.cn/problems/search-in-rotated-sorted-array/description/">题目来源：力扣 33 · 搜索旋转排序数组</a></p>
-</div>
-<h3>解题思路</h3>
-<p>在 <code>[4, 5, 6, 7, 0, 1, 2]</code> 里找 0，中点是 7。单凭“0 小于 7”向左走，就会把目标丢掉。题目保证元素互异，因此以中点为界，至少有一半有序。先认出有序的那半边，再用它的两个端点判断目标是否在里面。</p>
-<pre><code class="language-python">def search_rotated(a, target):
-    lo, hi = 0, len(a) - 1
-    while lo &lt;= hi:
-        mid = (lo + hi) // 2
-        if a[mid] == target:
-            return mid
-        if a[lo] &lt;= a[mid]:
-            take_left = a[lo] &lt;= target &lt; a[mid]
-        else:
-            take_left = not (a[mid] &lt; target &lt;= a[hi])
-        if take_left:
-            hi = mid - 1
-        else:
-            lo = mid + 1
-    return -1
-</code></pre>
-<h2>leecode34:在排序数组中查找元素的第一个和最后一个位置</h2>
-<div class="problem-statement">
-<p>给定非递减的整数数组 <code>nums</code> 和整数 <code>target</code>。数组中允许有重复值。请返回 <code>[起点, 终点]</code>，分别是目标第一次和最后一次出现的下标，下标从 0 开始。只出现一次时，两个下标相同。</p>
-<p>若数组为空或目标没有出现，返回 <code>[-1, -1]</code>。整个查找须在 O(log n) 时间内完成。</p>
-<p><strong>数据范围</strong>　数组长度为 0–10⁵，元素与目标均在 −10⁹ 至 10⁹ 之间。</p>
-<p><strong>示例 1</strong></p>
-<pre><code>输入
-nums = [5, 7, 7, 8, 8, 10], target = 8
-输出
-[3, 4]</code></pre>
-<p>两个 8 连续出现在下标 3 和 4。</p>
-<p><strong>示例 2</strong></p>
-<pre><code>输入
-nums = [5, 7, 7, 8, 8, 10], target = 6
-输出
-[-1, -1]</code></pre>
-<p>6 没有出现，两个端点都用 −1 表示。</p>
-<p><strong>示例 3</strong></p>
-<pre><code>输入
-nums = [], target = 0
-输出
-[-1, -1]</code></pre>
-<p>数组为空，没有可返回的下标。</p>
-<p><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/">题目来源：力扣 34 · 在排序数组中查找元素的第一个和最后一个位置</a></p>
-</div>
-<h3>解题思路</h3>
-<p>在 <code>[5, 7, 7, 8, 8, 10]</code> 里命中一个 8 以后，向两侧逐个找当然可行，但如果整条数组都是 8，代价就到了 O(n)。我想保留二分，并把停止条件说得更具体：找左端时，命中的元素左邻已经不同，或者它本身就是数组第一个元素，便可以立即返回。找右端时检查右邻。</p>
-<pre><code class="language-python">def search_range(a, target):
-    def edge(left_edge):
-        lo, hi = 0, len(a) - 1
-        while lo &lt;= hi:
-            mid = (lo + hi) // 2
-            if a[mid] &lt; target:
-                lo = mid + 1
-            elif a[mid] &gt; target:
-                hi = mid - 1
-            elif left_edge:
-                if mid == 0 or a[mid - 1] != target:
-                    return mid
-                hi = mid - 1
-            else:
-                if mid == len(a) - 1 or a[mid + 1] != target:
-                    return mid
-                lo = mid + 1
-        return -1
-    return [edge(True), edge(False)]
-</code></pre>
-<p>这是当时特意想拿去测试的写法。它在碰到边界时能提前结束，每轮会多做一次邻居判断。两趟二分的最坏时间仍是 O(log n)。</p>
-<h2>leecode35:搜索插入位置</h2>
-<div class="problem-statement">
-<p>给定严格升序的整数数组 <code>nums</code> 和整数 <code>target</code>。若目标已经存在，返回它从 0 开始的下标。若不存在，返回把目标插入后仍能保持升序的位置。从头插入的下标是 0，追加到末尾的下标是数组长度。</p>
-<p>只需返回位置，要求用 O(log n) 时间完成。</p>
-<p><strong>数据范围</strong>　数组长度为 1–10⁴，元素和目标均在 −10⁴ 至 10⁴ 之间。</p>
-<p><strong>示例 1</strong></p>
-<pre><code>输入
-nums = [1, 3, 5, 6], target = 5
-输出
-2</code></pre>
-<p>5 已经在下标 2。</p>
-<p><strong>示例 2</strong></p>
-<pre><code>输入
-nums = [1, 3, 5, 6], target = 2
-输出
-1</code></pre>
-<p>插在 1 和 3 之间，新元素的下标为 1。</p>
-<p><strong>示例 3</strong></p>
-<pre><code>输入
-nums = [1, 3, 5, 6], target = 7
-输出
-4</code></pre>
-<p>7 大于末尾元素，插入点正好等于数组长度。</p>
-<p><a href="https://leetcode.cn/problems/search-insert-position/description/">题目来源：力扣 35 · 搜索插入位置</a></p>
-</div>
-<h3>解题思路</h3>
-<p>题目希望查找失败时也给出有意义的位置。在升序数组 <code>[1, 3, 5, 6]</code> 里找 2，最后一个被排除的小数是 1，第一个较大的数是 3，插入位置就是下标 1。用半开区间写，退出时直接返回 <code>lo</code>，目标大于所有元素时它恰好等于数组长度。</p>
-<pre><code class="language-python">def search_insert(a, target):
-    lo, hi = 0, len(a)
-    while lo &lt; hi:
-        mid = (lo + hi) // 2
-        if a[mid] &lt; target:
-            lo = mid + 1
-        else:
-            hi = mid
-    return lo
-</code></pre>
-      </div>
-      <nav class="article-actions" aria-label="文章分享">
-        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=leecode33%3A%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E3%80%81leecode34%3A%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE%E3%80%81leecode35%3A%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-33-35-binary-search.html">邮件分享</a>
-        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
-      </nav>
-      <p class="sr-only" data-copy-status role="status"></p>
-    </article>
-    <aside class="reading-sidebar" data-article-toc hidden>
-      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
-    </aside>
-  </div>
+<main data-post-alias id="main" class="wrap inner-page archive">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="page-heading"><h1>选择题解</h1></header>
+  <ul class="post-list">
+    <li class="post-row" id="section-1"><a href="/posts/leetcode/33.html" id="section-2"><span class="post-row-title">leetcode33:搜索旋转排序数组</span></a></li>
+    <li class="post-row" id="section-3"><a href="/posts/leetcode/34.html" id="section-4"><span class="post-row-title">leetcode34:在排序数组中查找元素的第一个和最后一个位置</span></a></li>
+    <li class="post-row" id="section-5"><a href="/posts/leetcode/35.html" id="section-6"><span class="post-row-title">leetcode35:搜索插入位置</span></a></li>
+  </ul>
 </main>
 
 <footer class="site-footer"><div class="wrap footer-inner">

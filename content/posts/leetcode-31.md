@@ -1,12 +1,11 @@
 ---
-title: "leecode31:下一个排列"
+title: "leetcode31:下一个排列"
 date: "2026-10-25"
 description: "用一个五元素数组找出刚好变大的排列，再原地翻转后缀。"
 ---
 
-## 题面与示例
-
-<div class="problem-statement">
+<details class="problem-statement">
+<summary>题面与示例（3 组）</summary>
 <p>给定整数数组 <code>nums</code>。把它的元素重新排列，每个数的出现次数保持不变。字典序从左往右比较两个排列，在第一个数值不同的位置，数值较小的一方排在前面。</p>
 <p>把所有不同排列按这个顺序排好，要求将 <code>nums</code> 改成紧接其后的排列。若当前已是最后一个，就回到第一个，即数值升序排列。直接修改原数组，只可使用 O(1) 的额外空间。</p>
 <p>例如，<code>[1,2,3]</code> 的排列依次为 <code>[1,2,3]</code>、<code>[1,3,2]</code>、<code>[2,1,3]</code>、<code>[2,3,1]</code>、<code>[3,1,2]</code>、<code>[3,2,1]</code>。因此 <code>[2,3,1]</code> 的下一项是 <code>[3,1,2]</code>。</p>
@@ -30,7 +29,7 @@ nums = [1, 1, 5]
 [1, 5, 1]</code></pre>
 <p>两个 1 的数值相同，互换它们不会产生更大的排列。</p>
 <p><a href="https://leetcode.cn/problems/next-permutation/description/">题目来源：力扣 31 · 下一个排列</a></p>
-</div>
+</details>
 
 ## 解题思路
 

@@ -2,15 +2,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="沿着把 7 拆成 3、2、2 的想法，分清重复选取、同层去重和路径拷贝。">
-  <title>leecode39:组合总和、leecode40:组合总和 II | tsumugi.</title>
+  <meta name="description" content="力扣题解。">
+  <title>力扣题解 | tsumugi.</title>
   <link rel="stylesheet" href="/style.css?v=20261119-themes">
   <link rel="alternate" type="application/rss+xml" title="tsumugi 博客" href="/feed.xml">
   <link rel="icon" href="/favicon.png" type="image/png">
   <script src="/script.js?v=20261119" defer></script>
 </head>
-<body class="article-page" id="top">
+<body class="archive-page" id="top">
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="site-header"><div class="wrap header-inner">
   <a class="wordmark" href="/" aria-label="tsumugi 首页">tsumugi<span>.</span></a>
@@ -26,100 +27,13 @@
   </div>
 </div></header>
 
-<div class="reading-progress" data-reading-progress aria-hidden="true"></div>
-<main id="main" class="wrap post-page">
-  <a class="back-link" href="/posts.html">← 全部文章</a>
-  <header class="article-heading">
-    <time class="post-date" datetime="2026-10-27">2026-10-27</time>
-    <h1 class="article-title">leecode39:组合总和、leecode40:组合总和 II</h1>
-  </header>
-  <div class="reading-grid">
-    <article class="reading-article">
-      <div class="article-content">
-<p>把 7 写成 3 + 2 + 2，两个 2 可以来自同一个候选值吗？第 39 题允许，第 40 题要看数组里有没有第二个 2。这一点决定了递归下一层从哪里开始。</p>
-<h2>leecode39:组合总和</h2>
-<div class="problem-statement">
-<p>给定互不相同的正整数 <code>candidates</code> 和目标整数 <code>target</code>。每个候选值可以使用任意多次。请找出所有加起来恰好等于目标的组合，返回一个列表。</p>
-<p>判断组合是否相同要看每个数字分别取了几次。改变顺序不会得到新组合，只要有一个数字的使用次数不同，就算另一组。各组合的返回顺序不限，若没有解就返回空列表。</p>
-<p><strong>数据范围</strong>　候选数共 1–30 个，数值为 2–40，目标为 1–40。题目给定的输入产生的不同组合少于 150 个。</p>
-<p><strong>示例 1</strong></p>
-<pre><code>输入
-candidates = [2, 3, 6, 7], target = 7
-输出
-[[2, 2, 3], [7]]</code></pre>
-<p>2 可以取两次，与 3 凑成 7。也可以只取一个 7。</p>
-<p><strong>示例 2</strong></p>
-<pre><code>输入
-candidates = [2, 3, 5], target = 8
-输出
-[[2, 2, 2, 2], [2, 3, 3], [3, 5]]</code></pre>
-<p>三组的和都是 8。交换组内次序不会产生新组合。</p>
-<p><strong>示例 3</strong></p>
-<pre><code>输入
-candidates = [2], target = 1
-输出
-[]</code></pre>
-<p>最小候选数已经比目标大。</p>
-<p><a href="https://leetcode.cn/problems/combination-sum/description/">题目来源：力扣 39 · 组合总和</a></p>
-</div>
-<h3>解题思路</h3>
-<p>当时把题目理解成拆数：7 可以直接取 7，也可以取 6 留 1，这条路走不通。取 3 留 4，则能继续拆成 2 和 2。沿这棵树写下去就是回溯。为了让 <code>3 + 2 + 2</code> 只出现一次，把候选数从大到小排，沿每条路径只用当前下标及其右边的数。第 39 题允许复用当前数，下一层从 <code>i</code> 开始。</p>
-<h2>leecode40:组合总和 II</h2>
-<div class="problem-statement">
-<p>给定一组正整数 <code>candidates</code> 和目标整数 <code>target</code>。从数组中挑选若干个位置，使这些位置上的数字相加恰好等于目标，列出所有不同的组合。</p>
-<p>每个位置在同一组合中最多取一次。输入可以含有相同的值，如果有两个 1，就可以把这两个 1 一起选入。按数字比较结果，相同的组合只保留一份，不能靠更换位置或调换顺序重复计入。</p>
-<p><strong>数据范围</strong>　候选数共 1–100 个，数值为 1–50，目标为 1–30。</p>
-<p><strong>示例 1</strong></p>
-<pre><code>输入
-candidates = [10, 1, 2, 7, 6, 1, 5], target = 8
-输出
-[[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]</code></pre>
-<p>输入里有两个独立的 1，所以 [1, 1, 6] 可以成立。用不同位置的 1 和 7 配对，得到的 [1, 7] 只收录一次。</p>
-<p><strong>示例 2</strong></p>
-<pre><code>输入
-candidates = [2, 5, 2, 1, 2], target = 5
-输出
-[[1, 2, 2], [5]]</code></pre>
-<p>可从三个 2 中挑两个配上 1，或者只选 5。所有挑法只对应这两种值组合。</p>
-<p><a href="https://leetcode.cn/problems/combination-sum-ii/description/">题目来源：力扣 40 · 组合总和 II</a></p>
-</div>
-<h3>解题思路</h3>
-<p>第 40 题的每个位置只能用一次。我把递归起点改成 <code>i + 1</code>，打算收集完结果再去重，却超了内存。这里还缺一个条件。给两个值相同的 1 标上 <code>1a、1b</code>：在同一层先选 <code>1a</code> 或先选 <code>1b</code>，会产生重复的值组合。已经选完 <code>1a</code> 后，下一层再选 <code>1b</code>，却是得到 <code>[1, 1, 6]</code> 的必要步骤。所以跳过重复数字的条件必须包含 <code>i &gt; start</code>。</p>
-<pre><code class="language-python">def combinations(candidates, target, *, single_use=False):
-    values = sorted(candidates, reverse=True)
-    result, path = [], []
-
-    def visit(start, remaining):
-        if remaining == 0:
-            result.append(path.copy())
-            return
-        for i in range(start, len(values)):
-            value = values[i]
-            if value &gt; remaining:
-                continue
-            if single_use and i &gt; start and value == values[i - 1]:
-                continue
-            path.append(value)
-            visit(i + 1 if single_use else i, remaining - value)
-            path.pop()
-
-    visit(0, target)
-    return result
-</code></pre>
-<p>两题的候选数均为正数，第 39 题另有候选值互异的前提。这里选了降序，遇到太大的数字还得继续看较小的数，不能直接 <code>break</code>。保存答案时用 <code>path.copy()</code>，因为后面的 <code>pop()</code> 还要修改同一个列表。路径里都是整数，浅拷贝就足够了。</p>
-<p>两题共用上面的函数。第 39 题调用 <code>combinations(candidates, target)</code>，第 40 题调用 <code>combinations(candidates, target, single_use=True)</code>。</p>
-      </div>
-      <nav class="article-actions" aria-label="文章分享">
-        <button class="button button-outline" type="button" data-copy-link hidden>复制链接</button>
-        <a class="button button-outline" data-share-email href="mailto:?subject=leecode39%3A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%E3%80%81leecode40%3A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%20II&amp;body=https%3A%2F%2Ftsumugi.cc.cd%2Fposts%2Fleetcode-39-40-combination-sum.html">邮件分享</a>
-        <a class="button button-link top-link" href="#top">返回顶部 ↑</a>
-      </nav>
-      <p class="sr-only" data-copy-status role="status"></p>
-    </article>
-    <aside class="reading-sidebar" data-article-toc hidden>
-      <nav aria-label="本文目录"><p>本文目录</p><ol></ol></nav>
-    </aside>
-  </div>
+<main data-post-alias id="main" class="wrap inner-page archive">
+  <a class="back-link" href="/posts/leetcode/">← 力扣题解</a>
+  <header class="page-heading"><h1>选择题解</h1></header>
+  <ul class="post-list">
+    <li class="post-row" id="section-1"><a href="/posts/leetcode/39.html" id="section-2"><span class="post-row-title">leetcode39:组合总和</span></a></li>
+    <li class="post-row" id="section-3"><a href="/posts/leetcode/40.html" id="section-4"><span class="post-row-title">leetcode40:组合总和 II</span></a></li>
+  </ul>
 </main>
 
 <footer class="site-footer"><div class="wrap footer-inner">
